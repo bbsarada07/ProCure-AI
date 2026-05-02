@@ -1,0 +1,76 @@
+{
+  "tender_id": "CRPF-CONST-2026-001",
+  "tender_title": "Construction of Additional Barracks for CRPF Battalion Headquarters",
+  "issuing_authority": "Central Reserve Police Force (CRPF), Ministry of Home Affairs",
+  "criteria": [
+    {
+      "criterion_id": "FIN-01",
+      "category": "financial",
+      "description": "Average Annual Financial Turnover of the bidder during the last 3 years ending 31st March of the previous financial year should be at least INR 5 Crore.",
+      "priority": "mandatory",
+      "verification_type": "numeric",
+      "threshold_value": {
+        "amount": 50000000.0,
+        "currency": "INR"
+      },
+      "acceptable_evidence": [
+        "Audited Balance Sheet",
+        "Chartered Accountant Certificate"
+      ],
+      "evaluation_logic": "extracted_value >= threshold_value",
+      "source_reference": {
+        "page": 5,
+        "section": "Section II - Financial Requirements",
+        "line_numbers": [
+          12,
+          13
+        ]
+      }
+    },
+    {
+      "criterion_id": "TECH-01",
+      "category": "technical",
+      "description": "Bidder must have successfully completed similar works (construction of multi-story institutional buildings) during last 7 years.",
+      "priority": "mandatory",
+      "verification_type": "document_check",
+      "threshold_value": null,
+      "acceptable_evidence": [
+        "Work Completion Certificate",
+        "Client Handover Document"
+      ],
+      "evaluation_logic": "evidence_provided == true",
+      "source_reference": {
+        "page": 7,
+        "section": "Section III - Technical Experience",
+        "line_numbers": [
+          21,
+          22
+        ]
+      }
+    },
+    {
+      "criterion_id": "COMP-01",
+      "category": "compliance",
+      "description": "Valid EPF and ESI registration numbers must be provided.",
+      "priority": "mandatory",
+      "verification_type": "document_check",
+      "threshold_value": null,
+      "acceptable_evidence": [
+        "EPF Registration Certificate",
+        "ESI Registration Certificate"
+      ],
+      "evaluation_logic": "evidence_provided == true",
+      "source_reference": {
+        "page": 10,
+        "section": "Section IV - Statutory Compliances",
+        "line_numbers": [
+          4,
+          5
+        ]
+      }
+    }
+  ],
+  "ambiguities_flagged": [
+    "The definition of 'similar works' specifies multi-story institutional buildings, but does not state the minimum number of stories required."
+  ]
+}

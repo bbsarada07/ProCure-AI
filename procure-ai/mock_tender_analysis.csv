@@ -1,0 +1,6 @@
+Section,Clause_Text,Risk_Level,Legal_Impact,Recommendation
+Eligibility,Minimum turnover of 100 Cr required for startup bidding.,Critical,Restricts competition and violates MSME preference policies.,Lower turnover requirement to 5 Cr or provide MSME exemption.
+Submission,Bids must be submitted within 3 working days of NIT.,High,Inadequate time for complex technical proposals.,Extend submission window to at least 14 days.
+Technical,Mandatory requirement for proprietary 'Brand X' hardware.,Critical,Restrictive specifications favoring a single vendor.,Use generic specifications or 'equivalent' clauses.
+Compliance,ISO 27001:2015 must be held for at least 10 years.,Medium,Excludes newer capable firms.,Reduce duration requirement to 2-3 years.
+General,Payment terms set to 180 days post-completion.,Medium,Creates cash flow issues for small contractors.,Align with standard 30-day GFR payment norms.

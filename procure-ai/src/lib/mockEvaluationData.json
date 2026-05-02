@@ -1,0 +1,38 @@
+{
+  "tender_id": "CRPF-CS-2026-004",
+  "tender_title": "CRPF Construction Services 2026",
+  "status": "COMPLETED",
+  "bidders": [
+    {
+      "bidder_name": "Apex Infrastructure Pvt Ltd",
+      "evaluations": [
+        { "criterion": "GSTN Status", "status": "Pass", "extracted_value": "07BBBBB1111B1Z2 (Active)", "extra_data": { "api": "GSTN Portal", "live_verified": true } },
+        { "criterion": "Market Price Audit", "status": "Pass", "extracted_value": "₹450/bag (Market Rate Match)", "extra_data": {} },
+        { "criterion": "Technical Experience", "status": "Pass", "extracted_value": "4 institutional projects (Verified)", "extra_data": {} }
+      ],
+      "overall_status": "Pass",
+      "risk_score": 12
+    },
+    {
+      "bidder_name": "Bharat Steel Works",
+      "evaluations": [
+        { "criterion": "GSTN Status", "status": "Fail", "extracted_value": "Suspended (Alert)", "extra_data": { "live_alert": "Critical Fraud: Live API Status Mismatch", "api": "GSTN Portal" } },
+        { "criterion": "Market Price Audit", "status": "Pass", "extracted_value": "₹450/bag", "extra_data": {} },
+        { "criterion": "Technical Experience", "status": "Pass", "extracted_value": "3 institutional projects", "extra_data": {} }
+      ],
+      "overall_status": "Fail",
+      "risk_score": 85
+    },
+    {
+      "bidder_name": "City Buildcon",
+      "evaluations": [
+        { "criterion": "GSTN Status", "status": "Pass", "extracted_value": "Active", "extra_data": { "api": "GSTN Portal" } },
+        { "criterion": "Market Price Audit", "status": "Needs Review", "extracted_value": "₹45/bag (Predatory Pricing Detected)", "extra_data": { "anomaly_type": "Predatory Pricing", "deviation": "90% below market index" } },
+        { "criterion": "Technical Experience", "status": "Pass", "extracted_value": "5 institutional projects", "extra_data": {} }
+      ],
+      "overall_status": "Needs Review",
+      "risk_score": 65
+    }
+  ],
+  "message": "Fallback evaluation data loaded from local secure cache."
+}
