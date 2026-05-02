@@ -1,113 +1,95 @@
-#  Procure AI: Explainable Procurement Intelligence Platform
+# ProCure-AI: Central Evaluation & Audit Portal
 
-[![Hackathon](https://img.shields.io/badge/Hackathon-AI_for_Bharat_2-020410?style=for-the-badge)](https://www.hackerearth.com/community/challenges/hackathon/ai-for-bharat-2/)
-[![Theme](https://img.shields.io/badge/Theme_3-CRPF_Tender_Evaluation-020410?style=for-the-badge)](#)
-[![Status](https://img.shields.io/badge/Status-Prototype_Active-emerald?style=for-the-badge)](#)
+## ProCure-AI (Admin) is the internal government-facing interface designed for the 2026 Procurement Modernization initiative. This dashboard provides evaluators with a "glass-box" view into the AI’s decision-making process, ensuring that every tender award is backed by verifiable data and GFR compliance logs.
 
-**An AI-powered, cryptographically secure Tender Evaluation and Eligibility Analysis platform built for Indian Government Procurement.**
+## Evaluator Core Workflow
 
----
+1. The Secure Audit Ledger: A real-time terminal feed that logs every action taken by the AI models during the "Auto-Structuring" phase, providing a 100% transparent trail for future audits.
 
-##  The Problem
-Government organisations such as the Central Reserve Police Force (CRPF) issue tenders to procure goods and services. Evaluating whether each bidder meets the stated eligibility criteria is a manual, slow, and error-prone process. Bids arrive in heterogeneous formats (scanned PDFs, photos, regional languages, stamped physical documents). 
+2. Recursive Compliance Checking: Automated verification of vendor-submitted Financial Statements and GSTIN records against stored GFR logic gates.
 
-There is a critical need to automate this extraction and matching process **without ever silently disqualifying a bidder** due to AI ambiguity or illegible scans.
+3. Decision Dossier Generation: The portal finalizes evaluation by generating a tamper-proof dossier, ready for Director-level approval and digital export.
 
-##  The Solution: Procure AI
-Procure AI is an authoritative, "Human-in-the-Loop" (HITL) command center designed specifically for bureaucrats. It extracts complex criteria from government tenders, cross-references bidder documents, and generates cryptographically secured audit trails. 
+4. Live Submission Tracking: A centralized view for government officials to track the progress of active tenders as vendors move through the verification pipeline.
 
-Our core philosophy is **Deterministic Explainability**: Every AI decision is visually mapped, and every ambiguous document is safely routed to a human officer for manual triage or vendor resubmission.
+## Monitor-Optimized UI/UX
 
----
+1. Enterprise Dashboard Design: Built for high-resolution desktop monitors at government offices, featuring a widescreen "Control Center" layout.
 
-##  Core Enterprise Features
+2. Immersive Evaluation Mode: A dedicated "Step-by-Step" review flow that allows evaluators to watch the AI verify documents in real-time.
 
-### 1. Advanced Extraction & Bharat Edge-Cases
-* **Heterogeneous Document Parsing:** Handles typed PDFs, scanned copies, and photographic evidence.
-* **Indic Language & Stamp Detection:** Automatically flags translated regional text and verifies the presence of physical rubber stamps and authorized signatures.
-* **Cross-Document Consistency:** Prevents forgery by cross-referencing entities (e.g., matching the PAN extracted from an IT Return against the PAN on an ISO Certificate).
+3. High-Fidelity Document Previews: An in-browser preview system that simulates physical A4 documents, complete with print and export utilities.
 
-### 2. Human-in-the-Loop (HITL) & Workflow
-* **No Silent Disqualifications:** Ambiguous documents (e.g., blurry scans) trigger a "Needs Review" state, halting automatic rejection.
-* **Vendor Resubmission Portal:** Allows officers to generate secure, time-limited links for bidders to re-upload illegible documents.
-* **Maker-Checker Hierarchy:** Built-in role-switching between Junior Evaluators (Makers) and Procurement Directors (Checkers) for final digital sign-off.
+## Project Structure
 
-### 3. Active Intelligence & Anti-Fraud
-* **Cartel Network Graphing:** Detects "ring bidding" by highlighting shared IP addresses, CA registrations, or overlapping directors across supposedly competing bids.
-* **Financial Anomaly Detection:** Flags predatory pricing if a bid is statistically lower than historical tender averages.
-* **Visual Decision Trees:** Replaces "black-box" AI logic with renderable flowcharts proving exactly why a condition failed.
+The repository is organized to separate the high-performance backend processing from the immersive administrator frontend.
 
-### 4. Cryptographic Auditability
-* **Immutable Ledger:** Every automated extraction and human override is logged.
-* **Cryptographic Hashing:** Final evaluation matrices are hashed (SHA-256) to provide mathematical proof against database tampering.
-
----
-
-##  System Architecture
-
-Procure AI uses a decoupled architecture ensuring high performance and the ability to run "air-gapped" in secure defense environments.
-
-```mermaid
-graph TD
-    subgraph "Frontend (Next.js & Tailwind)"
-        UI[Command Center UI]
-        State[Zustand State Management]
-        Auth[Role-Based Access Control]
-    end
-
-    subgraph "Backend Engine (FastAPI)"
-        API[RESTful Endpoints]
-        OCR[Document Pre-Processing]
-        Audit[Cryptographic Audit Logger]
-        Fall[Mock-Data Fallback System]
-    end
-
-    subgraph "Intelligence Layer"
-        Gemini[Cloud LLM: Gemini 2.0 Flash]
-        Local[Air-Gapped Local LLM]
-        Graph[Cartel Network Engine]
-    end
-
-    UI <-->|JSON over HTTP| API
-    API --> OCR
-    API <-->|Extracted Criteria/Validation| Gemini
-    API -.->|High Security Mode| Local
-    API --> Audit
-    API --> Graph
 ```
----
+ProCure-AI/
+├── bidder-gateway/             # Frontend: Next.js Admin/Evaluator Portal
+│   ├── src/
+│   │   ├── app/                # Next.js App Router (Dashboard, Track, Preview)
+│   │   ├── components/         # Reusable UI (Navigation, Audit Ledger, Banners)
+│   │   ├── context/            # Global state for document verification
+│   │   └── lib/                # Utility functions (Formatting, PDF Logic)
+│   └── public/
+│       └── demo_assets/        # Mock PDFs and Scanned SVGs for demo flow
+├── procure-ai-backend/         # Backend: FastAPI & AI Logic
+│   ├── app/
+│   │   ├── api/                # API Endpoints (Extraction, Evaluation)
+│   │   ├── services/           # LLM Integration (Gemini-2.0-Flash)
+│   │   └── models/             # Pydantic schemas for GFR compliance
+│   └── .env.example            # Template for environment variables
+└── .gitignore                  # Root-level security configuration
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## System Architecture
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+ProCure-AI follows a Decoupled Micro-Frontend Architecture designed for high security and rapid data processing.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Ingestion Layer: The Admin Portal captures physical documents via a "Vision-Simulated" camera or digital PDF uploads.
 
-## Learn More
+2. Processing Layer (Gemini-2.0-Flash): Documents are sent to the FastAPI backend where the AI performs "Semantic Chunking." It extracts specific criteria (e.g., Annual Turnover, GSTIN status) based on GFR 2017 logic.
 
-To learn more about Next.js, take a look at the following resources:
+3. Audit Layer (Secure Ledger): Every extraction result is hashed and logged to the "Secure Audit Ledger" in the UI. This ensures transparency and prevents "AI Hallucinations" from affecting the final award decision.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+4. Presentation Layer: The processed data is re-structured into a "Dossier Preview" which utilizes native browser APIs (Print/WebShare) to integrate with existing government paper-trails.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Technical Implementation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Framework: Next.js (Client Component Optimized).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Logic Engine: Gemini 2.0 Flash for semantic analysis of bidder documents.
+
+Native Integrations: Leverages Web Share and Print APIs for official government workflow integration.
+
+Data Handling: Secure environment management to prevent API leakage, utilizing a robust .gitignore architecture.
+
+## How to Launch the Evaluator Portal
+
+Clone the project:
+
+Bash
+```
+git clone https://github.com/bbsarada07/ProCure-AI.git
+```
+
+Enter the Portal Directory:
+
+Bash
+```
+cd procure-ai-evaluator-portal
+```
+
+Install & Start:
+
+Bash
+```
+npm install && npm run dev
+```
+
+Official Evaluation Entry - Hackathon 2026
+
+Team: ProCure-AI
