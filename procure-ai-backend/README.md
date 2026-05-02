@@ -11,6 +11,8 @@
 
 The **Procure-AI Backend** is a high-performance, asynchronous REST API built with FastAPI. It serves as the brain of the Bidder Gateway, handling complex document intelligence tasks. By integrating Google's Gemini 2.0 Flash multimodal model, it autonomously processes vendor dossiers (including physical scans and PDFs), extracts key financial and compliance metrics, and evaluates them against General Financial Rules (GFR) standards in real-time.
 
+---
+
 ###  Core Capabilities
 * **Multimodal Extraction:** Processes both structured PDFs and raw image scans (simulated physical documents) to extract critical bidder data (Turnover, GSTIN, Experience).
 * **Automated GFR Auditing:** Evaluates extracted metrics against pre-defined government tender criteria using deterministic logic combined with AI reasoning.
@@ -48,7 +50,10 @@ procure-ai-backend/
 ├── requirements.txt          # Python dependencies
 └── README.md
 ```
-🚀 Getting Started (Local Setup)
+---
+
+## Getting Started (Local Setup)
+
 Follow these steps to run the backend engine locally.
 
 Prerequisites
@@ -84,17 +89,26 @@ Bash
 ```
 pip install -r requirements.txt
 ```
+
 2. Environment Variables
+
 Create a .env file in the root of the procure-ai-backend directory. This file is securely ignored by Git. Add your Gemini credentials:
 
 Code snippet
+
 # Google Gemini Configuration
+```
 GEMINI_API_KEY=your_actual_api_key_here
+
 GEMINI_MODEL=gemini-2.0-flash
+```
 
 # Application Configuration
+
 ENVIRONMENT=development
+
 3. Running the Server
+
 Start the FastAPI application using Uvicorn with hot-reloading enabled:
 
 Bash
@@ -103,11 +117,18 @@ uvicorn app.main:app --reload
 ```
 The API will start running at http://localhost:8000.
 
-🔌 Interactive API Documentation
+---
+
+## Interactive API Documentation
+
 FastAPI automatically generates interactive Swagger documentation. Once the server is running, you can explore and test the endpoints directly from your browser:
 
 Swagger UI: http://localhost:8000/docs
 
 ReDoc: http://localhost:8000/redoc
 
-Developed by our team for the AI for Bharat Hackathon.
+---
+
+## Developed by our team for the AI for Bharat Hackathon.
+
+---
