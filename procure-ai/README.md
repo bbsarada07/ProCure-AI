@@ -2,6 +2,8 @@
 
 ## ProCure-AI (Admin) is the internal government-facing interface designed for the 2026 Procurement Modernization initiative. This dashboard provides evaluators with a "glass-box" view into the AI’s decision-making process, ensuring that every tender award is backed by verifiable data and GFR compliance logs.
 
+---
+
 ## Evaluator Core Workflow
 
 1. The Secure Audit Ledger: A real-time terminal feed that logs every action taken by the AI models during the "Auto-Structuring" phase, providing a 100% transparent trail for future audits.
@@ -12,6 +14,8 @@
 
 4. Live Submission Tracking: A centralized view for government officials to track the progress of active tenders as vendors move through the verification pipeline.
 
+---
+
 ## Monitor-Optimized UI/UX
 
 1. Enterprise Dashboard Design: Built for high-resolution desktop monitors at government offices, featuring a widescreen "Control Center" layout.
@@ -19,6 +23,8 @@
 2. Immersive Evaluation Mode: A dedicated "Step-by-Step" review flow that allows evaluators to watch the AI verify documents in real-time.
 
 3. High-Fidelity Document Previews: An in-browser preview system that simulates physical A4 documents, complete with print and export utilities.
+
+---
 
 ## Project Structure
 
@@ -44,6 +50,8 @@ ProCure-AI/
 
 ```
 
+---
+
 ## System Architecture
 
 ProCure-AI follows a Decoupled Micro-Frontend Architecture designed for high security and rapid data processing.
@@ -56,6 +64,7 @@ ProCure-AI follows a Decoupled Micro-Frontend Architecture designed for high sec
 
 4. Presentation Layer: The processed data is re-structured into a "Dossier Preview" which utilizes native browser APIs (Print/WebShare) to integrate with existing government paper-trails.
 
+---
 
 ## Technical Implementation
 
@@ -66,6 +75,8 @@ Logic Engine: Gemini 2.0 Flash for semantic analysis of bidder documents.
 Native Integrations: Leverages Web Share and Print APIs for official government workflow integration.
 
 Data Handling: Secure environment management to prevent API leakage, utilizing a robust .gitignore architecture.
+
+---
 
 ## How to Launch the Evaluator Portal
 
@@ -90,6 +101,10 @@ Bash
 npm install && npm run dev
 ```
 
-Official Evaluation Entry - Hackathon 2026
+---
+
+## Official Evaluation Entry - Hackathon 2026
 
 Team: ProCure-AI
+
+---
