@@ -43,6 +43,45 @@ Our core philosophy is **Deterministic Explainability**: Every AI decision is vi
 
 ---
 
+## The Bidder-Side Mobile App: "Procure-Link"
+
+While the Government Portal handles evaluation, the Procure-Link Mobile App is the gateway for bidders. It is designed to be a "Smart Scanner" that ensures high-quality data ingestion before a bid is even submitted.
+
+1. Intelligent Mobile Ingestion
+Vision-Guided Document Capture: Uses real-time edge detection to ensure bidders take clear, un-skewed photos of physical certificates and stamps.
+
+On-Device OCR Pre-check: Instantly alerts the bidder if a document is blurry or if mandatory fields (like a GSTIN or PAN) are missing before they upload.
+
+Offline First Mode: Allows bidders in low-connectivity areas to scan and package their entire tender dossier locally, sync-uploading once they reach stable internet.
+
+2. Bidder Empowerment & Transparency
+Real-Time Status Tracking: Bidders can see exactly which stage of the "AI Auto-Structuring" their bid is in—no more "black hole" waiting periods.
+
+Instant Triage Requests: If an official marks a document as "Needs Review," the bidder receives a push notification and can re-upload the specific document instantly via the app.
+
+Cryptographic Receipt: Upon submission, the app generates a unique SHA-256 hash receipt on the bidder's phone, serving as mathematical proof of their original submission.
+
+3. Technical Specifications (Mobile)
+Framework: React Native / Expo (for cross-platform iOS & Android deployment).
+
+Local Intelligence: Core ML / TensorFlow Lite for on-device document classification and blur detection.
+
+Secure Tunneling: Uses TLS 1.3 encryption to transmit sensitive financial data directly to the Procure AI Private Cloud.
+
+---
+
+## Integrated Workflow
+
+1. The Bidder scans a document via the Mobile App.
+
+2. The AI (Gemini 2.0) extracts the data and logs it in the Secure Ledger.
+
+3. The Government Official views the extraction on the Command Center Monitor.
+
+4. The System triggers a "Decision Dossier" that both parties can Export & Print.
+
+---
+
 ##  System Architecture
 
 Procure AI uses a decoupled architecture ensuring high performance and the ability to run "air-gapped" in secure defense environments.
@@ -109,5 +148,47 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+---
+
+## Future Roadmap
+
+Blockchain Integration: Moving from a centralized cryptographic ledger to a decentralized Hyperledger Fabric for cross-departmental trust.
+
+Multilingual Voice Interface: Enabling bidders to inquire about tender status using regional Indian dialects via Bhashini API integration.
+
+Predictive Workload Balancing: AI-driven suggestions for human evaluators based on their historical domain expertise in specific procurement categories (e.g., Electronics vs. Civil Works).
+
+---
+
+## Contributing & Collaboration
+
+This project was developed for the AI for Bharat 2 Hackathon. 
+
+We are open to collaboration with government tech entities to further refine the "Deterministic Explainability" engine.
+
+---
+
+## License & Security
+
+License: Distributed under the MIT License.
+
+Security: This repository uses a high-priority .gitignore to prevent the exposure of Google Gemini API keys and sensitive environment variables. 
+
+All previously detected secrets have been fully revoked and rotated.
+
+---
+
+## Developed by Team ProCure-AI
+
+Focus Theme: CRPF Tender Evaluation & Eligibility Analysis
+
+Project Lead: B.Bhuvana Sarada
+
+Hackathon: AI for Bharat 2 (2026)
+
+---
+
+
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
