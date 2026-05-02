@@ -54,6 +54,8 @@ Procure-AI/
 │
 └── README.md
 ```
+---
+
  Getting Started (Local Development)
 To run this project locally for demonstration or development purposes, follow these steps.
 
@@ -128,6 +130,8 @@ npm run dev
 ```
 The Bidder Gateway will be available at http://localhost:3000
 
+---
+
 #  Live Demo Navigation Guide
  
 For hackathon judges reviewing the local build, follow this "Happy Path" to experience the core functionality:
@@ -142,14 +146,8 @@ For hackathon judges reviewing the local build, follow this "Happy Path" to expe
 
 5. Once the evaluation hits 100%, click View Decision Dossier to see the final, exportable output.
 
-Developed by our team for the AI for Bharat Hackathon.
+---
 
-***
+## Developed by our team for the AI for Bharat Hackathon.
 
-Once you save this, run these three quick commands in your terminal to push this beautiful new README up to GitHub:
-
-```bash
-git add README.md
-git commit -m "Docs: Added professional README for AI for Bharat hackathon"
-git push origin main
-```
+---
