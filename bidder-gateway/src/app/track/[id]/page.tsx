@@ -234,7 +234,7 @@ export default function TrackTender({ params }: { params: Promise<{ id: string }
               />
             </div>
             <div className="flex justify-between mt-2 text-[9px] font-black uppercase tracking-widest">
-              <span>AI Engine Confidence: 98%</span>
+              <span>Secure Audit Ledger Linked</span>
               <span>Est. Result: {progress < 100 ? '< 3 SECONDS' : 'READY'}</span>
             </div>
           </div>

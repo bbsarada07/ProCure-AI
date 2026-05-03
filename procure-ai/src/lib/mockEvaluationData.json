@@ -27,10 +27,10 @@
       "bidder_name": "City Buildcon",
       "evaluations": [
         { "criterion": "GSTN Status", "status": "Pass", "extracted_value": "Active", "extra_data": { "api": "GSTN Portal" } },
-        { "criterion": "Market Price Audit", "status": "Needs Review", "extracted_value": "₹45/bag (Predatory Pricing Detected)", "extra_data": { "anomaly_type": "Predatory Pricing", "deviation": "90% below market index" } },
+        { "criterion": "Market Price Audit", "status": "Fail", "extracted_value": "₹45/bag (Predatory Pricing Detected)", "extra_data": { "anomaly_type": "Predatory Pricing", "deviation": "90% below market index" } },
         { "criterion": "Technical Experience", "status": "Pass", "extracted_value": "5 institutional projects", "extra_data": {} }
       ],
-      "overall_status": "Needs Review",
+      "overall_status": "Fail",
       "risk_score": 65
     }
   ],

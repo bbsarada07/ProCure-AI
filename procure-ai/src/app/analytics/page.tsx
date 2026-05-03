@@ -48,14 +48,12 @@ const DATA_SETS: Record<string, any> = {
       { m: 'Sun', v: 2, h: 10 },
     ],
     outcomes: [
-      { label: 'Technical Pass', val: '75%', color: 'bg-emerald-500', count: 32 },
+      { label: 'Technical Pass', val: '80%', color: 'bg-emerald-500', count: 34 },
       { label: 'Technical Fail', val: '20%', color: 'bg-rose-500', count: 8 },
-      { label: 'Under Review', val: '5%', color: 'bg-amber-500', count: 2 },
     ],
     stats: [
       { label: 'Avg. Eval Time', value: '1.2 Days', trend: '-22%', icon: TrendingUp },
       { label: 'AI Savings', value: '₹1.4 Lakh', trend: '+5%', icon: ShieldCheck },
-      { label: 'Human Touchpoints', value: '0.8', trend: '-15%', icon: Users },
       { label: 'Audit Compliance', value: '100%', trend: '+0.0%', icon: BarChart3 },
     ]
   },
@@ -68,14 +66,12 @@ const DATA_SETS: Record<string, any> = {
       { m: 'Wk 4', v: 102, h: 92 },
     ],
     outcomes: [
-      { label: 'Technical Pass', val: '60%', color: 'bg-emerald-500', count: 289 },
+      { label: 'Technical Pass', val: '70%', color: 'bg-emerald-500', count: 337 },
       { label: 'Technical Fail', val: '30%', color: 'bg-rose-500', count: 145 },
-      { label: 'Under Review', val: '10%', color: 'bg-amber-500', count: 48 },
     ],
     stats: [
       { label: 'Avg. Eval Time', value: '4.2 Days', trend: '-12%', icon: TrendingUp },
       { label: 'AI Savings', value: '₹12.4 Lakh', trend: '+18%', icon: ShieldCheck },
-      { label: 'Human Touchpoints', value: '1.4', trend: '-45%', icon: Users },
       { label: 'Audit Compliance', value: '99.8%', trend: '+0.2%', icon: BarChart3 },
     ]
   },
@@ -87,14 +83,12 @@ const DATA_SETS: Record<string, any> = {
       { m: 'Jun', v: 440, h: 100 },
     ],
     outcomes: [
-      { label: 'Technical Pass', val: '55%', color: 'bg-emerald-500', count: 682 },
+      { label: 'Technical Pass', val: '65%', color: 'bg-emerald-500', count: 806 },
       { label: 'Technical Fail', val: '35%', color: 'bg-rose-500', count: 434 },
-      { label: 'Under Review', val: '10%', color: 'bg-amber-500', count: 124 },
     ],
     stats: [
       { label: 'Avg. Eval Time', value: '5.1 Days', trend: '+5%', icon: TrendingUp },
       { label: 'AI Savings', value: '₹34.8 Lakh', trend: '+25%', icon: ShieldCheck },
-      { label: 'Human Touchpoints', value: '1.6', trend: '-30%', icon: Users },
       { label: 'Audit Compliance', value: '99.5%', trend: '-0.1%', icon: BarChart3 },
     ]
   },
@@ -109,14 +103,12 @@ const DATA_SETS: Record<string, any> = {
       { m: 'Jun', v: 500, h: 100 },
     ],
     outcomes: [
-      { label: 'Technical Pass', val: '58%', color: 'bg-emerald-500', count: 1247 },
+      { label: 'Technical Pass', val: '68%', color: 'bg-emerald-500', count: 1462 },
       { label: 'Technical Fail', val: '32%', color: 'bg-rose-500', count: 688 },
-      { label: 'Under Review', val: '10%', color: 'bg-amber-500', count: 215 },
     ],
     stats: [
       { label: 'Avg. Eval Time', value: '4.8 Days', trend: '-8%', icon: TrendingUp },
       { label: 'AI Savings', value: '₹58.2 Lakh', trend: '+40%', icon: ShieldCheck },
-      { label: 'Human Touchpoints', value: '1.5', trend: '-20%', icon: Users },
       { label: 'Audit Compliance', value: '99.7%', trend: '+0.1%', icon: BarChart3 },
     ]
   },
@@ -129,14 +121,12 @@ const DATA_SETS: Record<string, any> = {
       { m: 'Q4', v: 1200, h: 85 },
     ],
     outcomes: [
-      { label: 'Technical Pass', val: '62%', color: 'bg-emerald-500', count: 3007 },
+      { label: 'Technical Pass', val: '72%', color: 'bg-emerald-500', count: 3492 },
       { label: 'Technical Fail', val: '28%', color: 'bg-rose-500', count: 1358 },
-      { label: 'Under Review', val: '10%', color: 'bg-amber-500', count: 485 },
     ],
     stats: [
       { label: 'Avg. Eval Time', value: '4.5 Days', trend: '-15%', icon: TrendingUp },
       { label: 'AI Savings', value: '₹1.2 Cr', trend: '+120%', icon: ShieldCheck },
-      { label: 'Human Touchpoints', value: '1.4', trend: '-55%', icon: Users },
       { label: 'Audit Compliance', value: '99.9%', trend: '+0.3%', icon: BarChart3 },
     ]
   }
@@ -299,7 +289,6 @@ CONFIDENTIAL - GOVERNMENT OF INDIA PROCUREMENT DATA
                   <circle cx="18" cy="18" r="15.915" fill="transparent" stroke="#1E293B" strokeWidth="3" />
                   <circle cx="18" cy="18" r="15.915" fill="transparent" stroke="#10b981" strokeWidth="3" strokeDasharray={`${parseInt(currentData.outcomes[0].val)} ${100 - parseInt(currentData.outcomes[0].val)}`} strokeDashoffset="0" className="transition-all duration-700" />
                   <circle cx="18" cy="18" r="15.915" fill="transparent" stroke="#f43f5e" strokeWidth="3" strokeDasharray={`${parseInt(currentData.outcomes[1].val)} ${100 - parseInt(currentData.outcomes[1].val)}`} strokeDashoffset={`-${parseInt(currentData.outcomes[0].val)}`} className="transition-all duration-700" />
-                  <circle cx="18" cy="18" r="15.915" fill="transparent" stroke="#f59e0b" strokeWidth="3" strokeDasharray={`${parseInt(currentData.outcomes[2].val)} ${100 - parseInt(currentData.outcomes[2].val)}`} strokeDashoffset={`-${parseInt(currentData.outcomes[0].val) + parseInt(currentData.outcomes[1].val)}`} className="transition-all duration-700" />
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                   <span className="text-2xl font-black">{currentData.totalBids}</span>
@@ -372,35 +361,30 @@ CONFIDENTIAL - GOVERNMENT OF INDIA PROCUREMENT DATA
                 <tr className="bg-slate-50/50">
                   <th className="px-6 py-4 text-[10px] uppercase font-bold text-slate-500 tracking-widest border-b border-slate-100">Tender Reference</th>
                   <th className="px-6 py-4 text-[10px] uppercase font-bold text-slate-500 tracking-widest border-b border-slate-100 text-center">Bidders</th>
-                  <th className="px-6 py-4 text-[10px] uppercase font-bold text-slate-500 tracking-widest border-b border-slate-100 text-center">AI Confidence</th>
                   <th className="px-6 py-4 text-[10px] uppercase font-bold text-slate-500 tracking-widest border-b border-slate-100 text-right">Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
                 {[
-                  { ref: 'CRPF/CS/2026/04', bids: 12, conf: '98.2%', status: 'Completed' },
-                  { ref: 'BSF/IT/2025/11', bids: 8, conf: '96.5%', status: 'Completed' },
-                  { ref: 'CISF/MED/2026/01', bids: 24, conf: '99.1%', status: 'In Progress' },
-                  { ref: 'NSG/EQUIP/2025/08', bids: 5, conf: '97.8%', status: 'Completed' },
-                  { ref: 'ITBP/INFRA/2026/02', bids: 15, conf: '94.2%', status: 'Flagged' },
+                  { ref: 'CRPF/CS/2026/04', bids: 12, status: 'Completed' },
+                  { ref: 'BSF/IT/2025/11', bids: 8, status: 'Completed' },
+                  { ref: 'CISF/MED/2026/01', bids: 24, status: 'In Progress' },
+                  { ref: 'NSG/EQUIP/2025/08', bids: 5, status: 'Completed' },
+                  { ref: 'ITBP/INFRA/2026/02', bids: 15, status: 'Completed' },
                 ].map((row, i) => (
-                  <tr key={i} className="hover:bg-slate-50/30 transition-colors">
-                    <td className="px-6 py-4 text-sm font-bold text-slate-900">{row.ref}</td>
-                    <td className="px-6 py-4 text-sm text-slate-600 text-center font-mono">{row.bids}</td>
-                    <td className="px-6 py-4 text-center">
-                      <Badge className="bg-blue-50 text-blue-700 border-blue-100 font-mono text-[10px]">{row.conf}</Badge>
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <div className={`text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded inline-block ${
-                        row.status === 'Completed' ? 'bg-emerald-100 text-emerald-700' :
-                        row.status === 'Flagged' ? 'bg-rose-100 text-rose-700' :
-                        'bg-blue-100 text-blue-700'
-                      }`}>
-                        {row.status}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                    <tr key={i} className="hover:bg-slate-50/30 transition-colors">
+                      <td className="px-6 py-4 text-sm font-bold text-slate-900">{row.ref}</td>
+                      <td className="px-6 py-4 text-sm text-slate-600 text-center font-mono">{row.bids}</td>
+                      <td className="px-6 py-4 text-right">
+                        <div className={`text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded inline-block ${
+                          row.status === 'Completed' ? 'bg-emerald-100 text-emerald-700' :
+                          'bg-blue-100 text-blue-700'
+                        }`}>
+                          {row.status}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>

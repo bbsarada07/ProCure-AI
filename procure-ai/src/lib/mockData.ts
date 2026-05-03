@@ -8,8 +8,6 @@ export interface Criterion {
   compiledValue?: string;
   extractedValue?: string;
   sourceSnippet?: string;
-  defensibilityScore?: number;
-  confidenceScore?: number;
 }
 
 export interface Bidder {
@@ -68,23 +66,23 @@ export const MOCK_BIDDERS: Bidder[] = [
     riskScore: 12,
     riskAnomalies: [],
     criteria: {
-      crit_1: { id: 'crit_1', category: 'Financial', description: 'Turnover', requirement: '₹5Cr', isMandatory: true, status: 'Pass', compiledValue: '₹6.2 Crore', defensibilityScore: 0.98 },
-      crit_2: { id: 'crit_2', category: 'Technical', description: 'Projects', requirement: '3 Projects', isMandatory: true, status: 'Pass', compiledValue: '4 Projects', defensibilityScore: 0.95 },
-      crit_3: { id: 'crit_3', category: 'Compliance', description: 'GST', requirement: 'Valid', isMandatory: true, status: 'Pass', compiledValue: 'Verified', defensibilityScore: 0.99 },
-      crit_4: { id: 'crit_4', category: 'Compliance', description: 'ISO', requirement: 'Valid', isMandatory: false, status: 'Pass', compiledValue: 'Verified', defensibilityScore: 0.97 },
+      crit_1: { id: 'crit_1', category: 'Financial', description: 'Turnover', requirement: '₹5Cr', isMandatory: true, status: 'Pass', compiledValue: '₹6.2 Crore' },
+      crit_2: { id: 'crit_2', category: 'Technical', description: 'Projects', requirement: '3 Projects', isMandatory: true, status: 'Pass', compiledValue: '4 Projects' },
+      crit_3: { id: 'crit_3', category: 'Compliance', description: 'GST', requirement: 'Valid', isMandatory: true, status: 'Pass', compiledValue: 'Verified' },
+      crit_4: { id: 'crit_4', category: 'Compliance', description: 'ISO', requirement: 'Valid', isMandatory: false, status: 'Pass', compiledValue: 'Verified' },
     },
   },
   {
     id: 'bid_2',
     name: 'Bharat Steel Works',
-    overallStatus: 'Needs Review',
+    overallStatus: 'Fail',
     riskScore: 45,
-    riskAnomalies: ['Inconsistent turnover reporting', 'Document blurriness'],
+    riskAnomalies: ['Inconsistent turnover reporting'],
     criteria: {
-      crit_1: { id: 'crit_1', category: 'Financial', description: 'Turnover', requirement: '₹5Cr', isMandatory: true, status: 'Needs Review', extractedValue: 'Not Clearly Legible', confidenceScore: 0.42 },
-      crit_2: { id: 'crit_2', category: 'Technical', description: 'Projects', requirement: '3 Projects', isMandatory: true, status: 'Pass', extractedValue: '3 Projects', confidenceScore: 0.88 },
-      crit_3: { id: 'crit_3', category: 'Compliance', description: 'GST', requirement: 'Valid', isMandatory: true, status: 'Pass', extractedValue: 'Verified', confidenceScore: 0.99 },
-      crit_4: { id: 'crit_4', category: 'Compliance', description: 'ISO', requirement: 'Valid', isMandatory: false, status: 'Pass', extractedValue: 'Verified', confidenceScore: 0.97 },
+      crit_1: { id: 'crit_1', category: 'Financial', description: 'Turnover', requirement: '₹5Cr', isMandatory: true, status: 'Fail', extractedValue: 'Not Clearly Legible' },
+      crit_2: { id: 'crit_2', category: 'Technical', description: 'Projects', requirement: '3 Projects', isMandatory: true, status: 'Pass', extractedValue: '3 Projects' },
+      crit_3: { id: 'crit_3', category: 'Compliance', description: 'GST', requirement: 'Valid', isMandatory: true, status: 'Pass', extractedValue: 'Verified' },
+      crit_4: { id: 'crit_4', category: 'Compliance', description: 'ISO', requirement: 'Valid', isMandatory: false, status: 'Pass', extractedValue: 'Verified' },
     },
   },
   {
@@ -94,10 +92,10 @@ export const MOCK_BIDDERS: Bidder[] = [
     riskScore: 88,
     riskAnomalies: ['Turnover below threshold', 'Multiple litigation flags', 'Incomplete technical history'],
     criteria: {
-      crit_1: { id: 'crit_1', category: 'Financial', description: 'Turnover', requirement: '₹5Cr', isMandatory: true, status: 'Fail', extractedValue: '₹3.8 Crore', confidenceScore: 0.96 },
-      crit_2: { id: 'crit_2', category: 'Technical', description: 'Projects', requirement: '3 Projects', isMandatory: true, status: 'Pass', extractedValue: '5 Projects', confidenceScore: 0.92 },
-      crit_3: { id: 'crit_3', category: 'Compliance', description: 'GST', requirement: 'Valid', isMandatory: true, status: 'Pass', extractedValue: 'Verified', confidenceScore: 0.99 },
-      crit_4: { id: 'crit_4', category: 'Compliance', description: 'ISO', requirement: 'Valid', isMandatory: false, status: 'Pass', extractedValue: 'Verified', confidenceScore: 0.97 },
+      crit_1: { id: 'crit_1', category: 'Financial', description: 'Turnover', requirement: '₹5Cr', isMandatory: true, status: 'Fail', extractedValue: '₹3.8 Crore' },
+      crit_2: { id: 'crit_2', category: 'Technical', description: 'Projects', requirement: '3 Projects', isMandatory: true, status: 'Pass', extractedValue: '5 Projects' },
+      crit_3: { id: 'crit_3', category: 'Compliance', description: 'GST', requirement: 'Valid', isMandatory: true, status: 'Pass', extractedValue: 'Verified' },
+      crit_4: { id: 'crit_4', category: 'Compliance', description: 'ISO', requirement: 'Valid', isMandatory: false, status: 'Pass', extractedValue: 'Verified' },
     },
   },
   {
@@ -107,10 +105,10 @@ export const MOCK_BIDDERS: Bidder[] = [
     riskScore: 22,
     riskAnomalies: ['Minor PAN mismatch in secondary docs'],
     criteria: {
-      crit_1: { id: 'crit_1', category: 'Financial', description: 'Turnover', requirement: '₹5Cr', isMandatory: true, status: 'Pass', extractedValue: '₹12.4 Crore', confidenceScore: 0.99 },
-      crit_2: { id: 'crit_2', category: 'Technical', description: 'Projects', requirement: '3 Projects', isMandatory: true, status: 'Pass', extractedValue: '6 Projects', confidenceScore: 0.97 },
-      crit_3: { id: 'crit_3', category: 'Compliance', description: 'GST', requirement: 'Valid', isMandatory: true, status: 'Pass', extractedValue: 'Verified', confidenceScore: 0.99 },
-      crit_4: { id: 'crit_4', category: 'Compliance', description: 'ISO', requirement: 'Valid', isMandatory: false, status: 'Fail', extractedValue: 'Expired', confidenceScore: 0.98 },
+      crit_1: { id: 'crit_1', category: 'Financial', description: 'Turnover', requirement: '₹5Cr', isMandatory: true, status: 'Pass', extractedValue: '₹12.4 Crore' },
+      crit_2: { id: 'crit_2', category: 'Technical', description: 'Projects', requirement: '3 Projects', isMandatory: true, status: 'Pass', extractedValue: '6 Projects' },
+      crit_3: { id: 'crit_3', category: 'Compliance', description: 'GST', requirement: 'Valid', isMandatory: true, status: 'Pass', extractedValue: 'Verified' },
+      crit_4: { id: 'crit_4', category: 'Compliance', description: 'ISO', requirement: 'Valid', isMandatory: false, status: 'Fail', extractedValue: 'Expired' },
     },
   },
   {
@@ -120,23 +118,23 @@ export const MOCK_BIDDERS: Bidder[] = [
     riskScore: 75,
     riskAnomalies: ['cartel topology anomaly (82% below average)', 'collusive entity pattern detected'],
     criteria: {
-      crit_1: { id: 'crit_1', category: 'Financial', description: 'Turnover', requirement: '₹5Cr', isMandatory: true, status: 'Pass', compiledValue: '₹5.1 Crore', defensibilityScore: 0.89 },
-      crit_2: { id: 'crit_2', category: 'Technical', description: 'Projects', requirement: '3 Projects', isMandatory: true, status: 'Pass', compiledValue: '3 Projects', defensibilityScore: 0.91 },
-      crit_3: { id: 'crit_3', category: 'Compliance', description: 'GST', requirement: 'Valid', isMandatory: true, status: 'Pass', compiledValue: 'Verified', defensibilityScore: 0.99 },
-      crit_4: { id: 'crit_4', category: 'Compliance', description: 'ISO', requirement: 'Valid', isMandatory: false, status: 'Pass', compiledValue: 'Verified', defensibilityScore: 0.97 },
+      crit_1: { id: 'crit_1', category: 'Financial', description: 'Turnover', requirement: '₹5Cr', isMandatory: true, status: 'Pass', compiledValue: '₹5.1 Crore' },
+      crit_2: { id: 'crit_2', category: 'Technical', description: 'Projects', requirement: '3 Projects', isMandatory: true, status: 'Pass', compiledValue: '3 Projects' },
+      crit_3: { id: 'crit_3', category: 'Compliance', description: 'GST', requirement: 'Valid', isMandatory: true, status: 'Pass', compiledValue: 'Verified' },
+      crit_4: { id: 'crit_4', category: 'Compliance', description: 'ISO', requirement: 'Valid', isMandatory: false, status: 'Pass', compiledValue: 'Verified' },
     },
   },
   {
     id: 'bid_6',
     name: 'Falcon Constructions',
-    overallStatus: 'Needs Review',
+    overallStatus: 'Pass',
     riskScore: 52,
-    riskAnomalies: ['Ambiguous completion dates', 'Unclear parent company relationship'],
+    riskAnomalies: ['Unclear parent company relationship'],
     criteria: {
-      crit_1: { id: 'crit_1', category: 'Financial', description: 'Turnover', requirement: '₹5Cr', isMandatory: true, status: 'Pass', extractedValue: '₹7.8 Crore', confidenceScore: 0.95 },
-      crit_2: { id: 'crit_2', category: 'Technical', description: 'Projects', requirement: '3 Projects', isMandatory: true, status: 'Needs Review', extractedValue: 'Ambiguous completion dates', confidenceScore: 0.55 },
-      crit_3: { id: 'crit_3', category: 'Compliance', description: 'GST', requirement: 'Valid', isMandatory: true, status: 'Pass', extractedValue: 'Verified', confidenceScore: 0.99 },
-      crit_4: { id: 'crit_4', category: 'Compliance', description: 'ISO', requirement: 'Valid', isMandatory: false, status: 'Pass', extractedValue: 'Verified', confidenceScore: 0.97 },
+      crit_1: { id: 'crit_1', category: 'Financial', description: 'Turnover', requirement: '₹5Cr', isMandatory: true, status: 'Pass', extractedValue: '₹7.8 Crore' },
+      crit_2: { id: 'crit_2', category: 'Technical', description: 'Projects', requirement: '3 Projects', isMandatory: true, status: 'Pass', extractedValue: 'Verified' },
+      crit_3: { id: 'crit_3', category: 'Compliance', description: 'GST', requirement: 'Valid', isMandatory: true, status: 'Pass', extractedValue: 'Verified' },
+      crit_4: { id: 'crit_4', category: 'Compliance', description: 'ISO', requirement: 'Valid', isMandatory: false, status: 'Pass', extractedValue: 'Verified' },
     },
   },
   {
@@ -146,10 +144,10 @@ export const MOCK_BIDDERS: Bidder[] = [
     riskScore: 18,
     riskAnomalies: [],
     criteria: {
-      crit_1: { id: 'crit_1', category: 'Financial', description: 'Turnover', requirement: '₹5Cr', isMandatory: true, status: 'Pass', extractedValue: '₹9.2 Crore', confidenceScore: 0.98 },
-      crit_2: { id: 'crit_2', category: 'Technical', description: 'Projects', requirement: '3 Projects', isMandatory: true, status: 'Pass', extractedValue: '4 Projects', confidenceScore: 0.94 },
-      crit_3: { id: 'crit_3', category: 'Compliance', description: 'GST', requirement: 'Valid', isMandatory: true, status: 'Pass', extractedValue: 'Verified', confidenceScore: 0.99 },
-      crit_4: { id: 'crit_4', category: 'Compliance', description: 'ISO', requirement: 'Valid', isMandatory: false, status: 'Pass', extractedValue: 'Verified', confidenceScore: 0.97 },
+      crit_1: { id: 'crit_1', category: 'Financial', description: 'Turnover', requirement: '₹5Cr', isMandatory: true, status: 'Pass', extractedValue: '₹9.2 Crore' },
+      crit_2: { id: 'crit_2', category: 'Technical', description: 'Projects', requirement: '3 Projects', isMandatory: true, status: 'Pass', extractedValue: '4 Projects' },
+      crit_3: { id: 'crit_3', category: 'Compliance', description: 'GST', requirement: 'Valid', isMandatory: true, status: 'Pass', extractedValue: 'Verified' },
+      crit_4: { id: 'crit_4', category: 'Compliance', description: 'ISO', requirement: 'Valid', isMandatory: false, status: 'Pass', extractedValue: 'Verified' },
     },
   },
   {
@@ -159,10 +157,10 @@ export const MOCK_BIDDERS: Bidder[] = [
     riskScore: 68,
     riskAnomalies: ['Technical shortfall', 'History of project delays'],
     criteria: {
-      crit_1: { id: 'crit_1', category: 'Financial', description: 'Turnover', requirement: '₹5Cr', isMandatory: true, status: 'Pass', extractedValue: '₹6.5 Crore', confidenceScore: 0.97 },
-      crit_2: { id: 'crit_2', category: 'Technical', description: 'Projects', requirement: '3 Projects', isMandatory: true, status: 'Fail', extractedValue: '2 Projects', confidenceScore: 0.99 },
-      crit_3: { id: 'crit_3', category: 'Compliance', description: 'GST', requirement: 'Valid', isMandatory: true, status: 'Pass', extractedValue: 'Verified', confidenceScore: 0.99 },
-      crit_4: { id: 'crit_4', category: 'Compliance', description: 'ISO', requirement: 'Valid', isMandatory: false, status: 'Pass', extractedValue: 'Verified', confidenceScore: 0.97 },
+      crit_1: { id: 'crit_1', category: 'Financial', description: 'Turnover', requirement: '₹5Cr', isMandatory: true, status: 'Pass', extractedValue: '₹6.5 Crore' },
+      crit_2: { id: 'crit_2', category: 'Technical', description: 'Projects', requirement: '3 Projects', isMandatory: true, status: 'Fail', extractedValue: '2 Projects' },
+      crit_3: { id: 'crit_3', category: 'Compliance', description: 'GST', requirement: 'Valid', isMandatory: true, status: 'Pass', extractedValue: 'Verified' },
+      crit_4: { id: 'crit_4', category: 'Compliance', description: 'ISO', requirement: 'Valid', isMandatory: false, status: 'Pass', extractedValue: 'Verified' },
     },
   },
   {
@@ -172,10 +170,10 @@ export const MOCK_BIDDERS: Bidder[] = [
     riskScore: 25,
     riskAnomalies: [],
     criteria: {
-      crit_1: { id: 'crit_1', category: 'Financial', description: 'Turnover', requirement: '₹5Cr', isMandatory: true, status: 'Pass', extractedValue: '₹5.9 Crore', confidenceScore: 0.96 },
-      crit_2: { id: 'crit_2', category: 'Technical', description: 'Projects', requirement: '3 Projects', isMandatory: true, status: 'Pass', extractedValue: '3 Projects', confidenceScore: 0.93 },
-      crit_3: { id: 'crit_3', category: 'Compliance', description: 'GST', requirement: 'Valid', isMandatory: true, status: 'Pass', extractedValue: 'Verified', confidenceScore: 0.99 },
-      crit_4: { id: 'crit_4', category: 'Compliance', description: 'ISO', requirement: 'Valid', isMandatory: false, status: 'Pass', extractedValue: 'Verified', confidenceScore: 0.97 },
+      crit_1: { id: 'crit_1', category: 'Financial', description: 'Turnover', requirement: '₹5Cr', isMandatory: true, status: 'Pass', extractedValue: '₹5.9 Crore' },
+      crit_2: { id: 'crit_2', category: 'Technical', description: 'Projects', requirement: '3 Projects', isMandatory: true, status: 'Pass', extractedValue: '3 Projects' },
+      crit_3: { id: 'crit_3', category: 'Compliance', description: 'GST', requirement: 'Valid', isMandatory: true, status: 'Pass', extractedValue: 'Verified' },
+      crit_4: { id: 'crit_4', category: 'Compliance', description: 'ISO', requirement: 'Valid', isMandatory: false, status: 'Pass', extractedValue: 'Verified' },
     },
   },
   {
@@ -185,10 +183,10 @@ export const MOCK_BIDDERS: Bidder[] = [
     riskScore: 5,
     riskAnomalies: [],
     criteria: {
-      crit_1: { id: 'crit_1', category: 'Financial', description: 'Turnover', requirement: '₹5Cr', isMandatory: true, status: 'Pass', extractedValue: '₹15.0 Crore', confidenceScore: 0.99 },
-      crit_2: { id: 'crit_2', category: 'Technical', description: 'Projects', requirement: '3 Projects', isMandatory: true, status: 'Pass', extractedValue: '8 Projects', confidenceScore: 0.98 },
-      crit_3: { id: 'crit_3', category: 'Compliance', description: 'GST', requirement: 'Valid', isMandatory: true, status: 'Pass', extractedValue: 'Verified', confidenceScore: 0.99 },
-      crit_4: { id: 'crit_4', category: 'Compliance', description: 'ISO', requirement: 'Valid', isMandatory: false, status: 'Pass', extractedValue: 'Verified', confidenceScore: 0.97 },
+      crit_1: { id: 'crit_1', category: 'Financial', description: 'Turnover', requirement: '₹5Cr', isMandatory: true, status: 'Pass', extractedValue: '₹15.0 Crore' },
+      crit_2: { id: 'crit_2', category: 'Technical', description: 'Projects', requirement: '3 Projects', isMandatory: true, status: 'Pass', extractedValue: '8 Projects' },
+      crit_3: { id: 'crit_3', category: 'Compliance', description: 'GST', requirement: 'Valid', isMandatory: true, status: 'Pass', extractedValue: 'Verified' },
+      crit_4: { id: 'crit_4', category: 'Compliance', description: 'ISO', requirement: 'Valid', isMandatory: false, status: 'Pass', extractedValue: 'Verified' },
     },
   },
 ];
@@ -196,7 +194,5 @@ export const MOCK_BIDDERS: Bidder[] = [
 
 export const MOCK_AUDIT_LOGS: AuditLog[] = [
   { id: '1', timestamp: '2026-04-19 10:15:00', action: 'Logic-Gate Execution', user: 'GFR Engine', details: 'Automatically verified Bidder 1 GST Registration via logic-gate.' },
-  { id: '2', timestamp: '2026-04-19 10:20:00', action: 'Logic-Gate Flag', user: 'GFR Engine', details: 'Flagged Bidder 2 Turnover criteria for Statutory Triage (Low defensibility).' },
-  { id: '3', timestamp: '2026-04-19 11:05:00', action: 'Manual Override', user: 'Officer Smith', details: 'Manually approved Turnover for Bidder 7. Reason: Document verified against physical copy.' },
-  { id: '4', timestamp: '2026-04-19 11:30:00', action: 'Export', user: 'Officer Smith', details: 'Exported preliminary evaluation ledger to PDF.' },
+  { id: '2', timestamp: '2026-04-19 11:30:00', action: 'Export', user: 'Officer Smith', details: 'Exported preliminary evaluation ledger to PDF.' },
 ];

@@ -43,9 +43,8 @@ export default function DashboardPage() {
 
   const stats = [
     { label: 'total_bidders', value: '10', icon: Users, color: 'text-blue-600', bg: 'bg-blue-50' },
-    { label: 'cleared', value: '6', icon: CheckCircle2, color: 'text-green-600', bg: 'bg-green-50' },
+    { label: 'cleared', value: '7', icon: CheckCircle2, color: 'text-green-600', bg: 'bg-green-50' },
     { label: 'rejected', value: '3', icon: XCircle, color: 'text-red-600', bg: 'bg-red-50' },
-    { label: 'manual_review', value: '1', icon: AlertCircle, color: 'text-amber-600', bg: 'bg-amber-50' },
   ];
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -258,8 +257,8 @@ export default function DashboardPage() {
             <div className="space-y-3">
               <Link href="/tender/crpf-2026/evaluation">
                 <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white border-none gap-2">
-                  <AlertCircle className="w-4 h-4" />
-                  {t('go_to_triage')}
+                  <FileText className="w-4 h-4" />
+                  View Evaluation Matrix
                 </Button>
               </Link>
               <Link href="/tender/crpf-2026/evaluation">

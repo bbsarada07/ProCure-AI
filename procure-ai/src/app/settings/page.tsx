@@ -116,13 +116,6 @@ export default function SettingsPage() {
             <CardContent className="p-6 space-y-6">
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
-                  <Label className="text-base">Strict Manual Review Protocol</Label>
-                  <p className="text-sm text-slate-500">Always flag cases with confidence score below 85%.</p>
-                </div>
-                <Switch defaultChecked className="data-[state=checked]:bg-blue-600" />
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
                   <Label className="text-base text-red-600 font-bold">Auto-Disqualification</Label>
                   <p className="text-sm text-slate-500">Allow system to disqualify bidders without human intervention.</p>
                 </div>

@@ -42,7 +42,7 @@ async def run_evaluation_worker(job_id: str, bidder_name: str, manager: any, lan
             anomaly = await pricing_oracle.detect_anomaly("Cement (Grade 43)", quoted_price)
             
             if anomaly["anomaly"]:
-                status = "Needs Review"
+                status = "Fail"
                 extra_data = {
                     "anomaly_type": "Predatory Pricing",
                     "deviation": f"{anomaly['deviation_percent']}% below market index"

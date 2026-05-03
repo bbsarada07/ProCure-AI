@@ -500,7 +500,7 @@ OFFICIAL TENDER RECORD - GOVERNMENT OF INDIA
                   <DropdownMenuGroup>
                     <DropdownMenuLabel className="text-[10px] font-black uppercase text-slate-400 tracking-widest px-3 py-2">{t('filter_by_status')}</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    {['Pass', 'Fail', 'Needs Review'].map((status) => (
+                    {['Pass', 'Fail'].map((status) => (
                       <DropdownMenuCheckboxItem
                         key={status}
                         checked={filterStatus.includes(status)}
@@ -511,7 +511,7 @@ OFFICIAL TENDER RECORD - GOVERNMENT OF INDIA
                         }}
                         className="text-sm font-medium focus:bg-slate-50"
                       >
-                        {status === 'Needs Review' ? 'Review' : status}
+                        {status}
                       </DropdownMenuCheckboxItem>
                     ))}
                   </DropdownMenuGroup>
@@ -675,13 +675,10 @@ OFFICIAL TENDER RECORD - GOVERNMENT OF INDIA
                             onClick={() => openModal(bidder, bidder.criteria[crit.id])}
                             className={`inline-flex items-center justify-center p-1.5 rounded-lg border-2 transition-all hover:scale-110 active:scale-95 ${
                               status === 'Pass' ? 'border-green-500/20 bg-green-50 text-green-600' :
-                              status === 'Fail' ? 'border-red-500/20 bg-red-50 text-red-600' :
-                              'border-amber-500/20 bg-amber-50 text-amber-600 animate-pulse'
+                              'border-red-500/20 bg-red-50 text-red-600'
                             }`}
                           >
-                            {status === 'Pass' && <CheckCircle2 className="w-5 h-5" />}
-                            {status === 'Fail' && <XCircle className="w-5 h-5" />}
-                            {status === 'Needs Review' && <AlertCircle className="w-5 h-5" />}
+                            {status === 'Pass' ? <CheckCircle2 className="w-5 h-5" /> : <XCircle className="w-5 h-5" />}
                           </button>
                           
                           {crit.category === 'Financial' && extractedValue && (

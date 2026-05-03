@@ -285,7 +285,6 @@ export default function SubmitTender({ params }: { params: Promise<{ id: string 
                     <ShieldCheck className="w-4 h-4 text-emerald-600" />
                     <span className="text-xs font-black text-emerald-700 uppercase tracking-widest">AI Audit Passed</span>
                   </div>
-                  <Badge className="bg-emerald-500 text-white text-[9px] font-black tracking-tighter h-5">98% CONFIDENCE</Badge>
                 </div>
                 <div className="p-6 space-y-4">
                   <div className="flex justify-between items-center pb-4 border-b border-slate-50">
@@ -310,7 +309,7 @@ export default function SubmitTender({ params }: { params: Promise<{ id: string 
               <div className="p-4 bg-amber-50 rounded-2xl border border-amber-100 flex items-start gap-3">
                 <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
                 <p className="text-[11px] text-amber-800 font-medium leading-relaxed">
-                  <span className="font-bold">Minor Issue:</span> Page 12 of your Financial Audit is slightly blurry. The AI has compensated, but manual reviewer might flag it later.
+                  <span className="font-bold">Notice:</span> Ensure all pages are clearly visible in the source scans to avoid automated audit mismatches.
                 </p>
               </div>
 
