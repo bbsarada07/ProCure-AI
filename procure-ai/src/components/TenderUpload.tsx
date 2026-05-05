@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -14,6 +15,7 @@ import {
 } from 'lucide-react';
 
 export default function TenderUpload() {
+  const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const [isExtracting, setIsExtracting] = useState(false);
   const [extractedData, setExtractedData] = useState<any>(null);
@@ -76,13 +78,14 @@ export default function TenderUpload() {
                 ref={fileInputRef} 
                 className="hidden" 
                 onChange={handleFileChange}
-                accept=".pdf,.docx,.txt"
+                accept="image/*,application/pdf"
+                capture="environment"
               />
               
-              <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-transform group-hover:scale-110 ${
+              <div className={`w-20 h-20 md:w-16 md:h-16 rounded-full flex items-center justify-center mb-4 transition-transform group-hover:scale-110 ${
                 file ? 'bg-emerald-100 text-emerald-600' : 'bg-blue-100 text-blue-600'
               }`}>
-                {file ? <FileText className="w-8 h-8" /> : <UploadCloud className="w-8 h-8" />}
+                {file ? <FileText className="w-10 h-10 md:w-8 md:h-8" /> : <UploadCloud className="w-10 h-10 md:w-8 md:h-8" />}
               </div>
               
               <div className="text-center">
@@ -156,7 +159,11 @@ export default function TenderUpload() {
                 <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
                 <span className="text-xs font-medium text-slate-500 italic">Immutable DNA Ledger Generated via ProcureAI Engine</span>
               </div>
-              <Button variant="ghost" className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 font-bold text-sm h-8 px-3">
+              <Button 
+                variant="ghost" 
+                className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 font-bold text-sm h-8 px-3"
+                onClick={() => router.push('/tender/crpf-2026/criteria')}
+              >
                 Proceed to Setup
               </Button>
             </div>

@@ -23,9 +23,9 @@ export function TopNav() {
 
   const menuItems = [
     { icon: Home, label: 'Dashboard', href: '/dashboard' },
-    { icon: FileText, label: 'My Submissions', href: '#' },
-    { icon: Briefcase, label: 'Active Tenders', href: '#' },
-    { icon: LifeBuoy, label: 'Help & Support', href: '#' },
+    { icon: FileText, label: 'My Submissions', href: '/dashboard' },
+    { icon: Briefcase, label: 'Active Tenders', href: '/search' },
+    { icon: LifeBuoy, label: 'Help & Support', href: '/dashboard' },
   ];
 
   return (
