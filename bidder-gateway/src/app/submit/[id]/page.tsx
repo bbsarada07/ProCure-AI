@@ -155,6 +155,8 @@ export default function SubmitTender({ params }: { params: Promise<{ id: string 
                       <input 
                         type="file" 
                         className="absolute inset-0 opacity-0 cursor-pointer z-10" 
+                        accept="image/*,application/pdf"
+                        capture="environment"
                         onChange={() => triggerDocFlow(item.id)} 
                       />
                       <div className={`p-4 rounded-3xl border-2 border-dashed transition-all flex items-center justify-between ${

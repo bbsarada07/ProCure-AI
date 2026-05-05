@@ -16,6 +16,7 @@ import {
 import { useToast } from '../context/ToastContext';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import { MobileSyncQR } from './MobileSyncQR';
 
 export function TopNav() {
   const { showToast } = useToast();
@@ -109,6 +110,8 @@ export function TopNav() {
                   </Link>
                 ))}
               </nav>
+
+              <MobileSyncQR />
 
               <div className="p-4 border-t border-slate-50">
                 <button 
