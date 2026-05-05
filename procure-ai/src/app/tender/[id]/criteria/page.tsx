@@ -17,8 +17,12 @@ import {
   Edit3,
   Bot,
   Download,
-  Loader2
+  Loader2,
+  UploadCloud,
+  Zap,
+  ShieldCheck
 } from 'lucide-react';
+import { useRef } from 'react';
 import { MOCK_DNA_COMPILATION } from '@/lib/mockData';
 import { useRouter, useParams } from 'next/navigation';
 import {
@@ -32,11 +36,40 @@ import {
 export default function CriteriaSetupPage() {
   const router = useRouter();
   const params = useParams();
-  const [criteria, setCriteria] = useState(MOCK_DNA_COMPILATION);
-  const [selectedId, setSelectedId] = useState('crit_1');
+  const [criteria, setCriteria] = useState<any[]>([]);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isFinalizing, setIsFinalizing] = useState(false);
   const [editingCriterion, setEditingCriterion] = useState<any>(null);
+  
+  // New state for DNA Compilation as requested
+  const [file, setFile] = useState<File | null>(null);
+  const [isExtracting, setIsExtracting] = useState(false);
+  const [compilationSuccess, setCompilationSuccess] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      setCompilationSuccess(false);
+    }
+  };
+
+  const handleCompile = () => {
+    if (!file) return;
+
+    setIsExtracting(true);
+    setCompilationSuccess(false);
+
+    // Simulate AI extraction process for 3 seconds
+    setTimeout(() => {
+      setIsExtracting(false);
+      setCompilationSuccess(true);
+      setCriteria(MOCK_DNA_COMPILATION);
+      setSelectedId(MOCK_DNA_COMPILATION[0].id);
+    }, 3000);
+  };
 
   const handleSaveEdit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -164,80 +197,159 @@ export default function CriteriaSetupPage() {
           </ScrollArea>
         </Card>
 
-        {/* Right: AI Extraction List */}
+        {/* Right: AI Extraction List / Compiler */}
         <Card className="border-none shadow-lg bg-white overflow-hidden flex flex-col">
           <CardHeader className="bg-slate-50 border-b pb-4">
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <Bot className="w-5 h-5 text-blue-600" />
-                  Compiled DNA Ledger
+                  {compilationSuccess ? 'Compiled DNA Ledger' : 'Tender DNA Compiler'}
                 </CardTitle>
-                <CardDescription>Verify and approve compiled multidimensional DNA.</CardDescription>
+                <CardDescription>
+                  {compilationSuccess 
+                    ? 'Verify and approve compiled multidimensional DNA.' 
+                    : 'Upload tender documents to begin AI-powered DNA compilation.'}
+                </CardDescription>
               </div>
-              <Badge className="bg-slate-900 text-white">4 Items Found</Badge>
+              {compilationSuccess && <Badge className="bg-slate-900 text-white">{criteria.length} Items Found</Badge>}
             </div>
           </CardHeader>
           <ScrollArea className="flex-1">
             <div className="p-4 space-y-4">
-              {criteria.map((item) => (
-                <div 
-                  key={item.id}
-                  onClick={() => setSelectedId(item.id)}
-                  className={`p-4 rounded-xl border transition-all cursor-pointer ${
-                    selectedId === item.id 
-                    ? 'border-blue-500 bg-blue-50/50 shadow-md ring-1 ring-blue-500' 
-                    : 'border-slate-100 hover:border-slate-300'
-                  }`}
-                >
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex items-center gap-2">
-                      <Badge variant="outline" className={`${
-                        item.category === 'Financial' ? 'text-green-700 bg-green-50 border-green-200' :
-                        item.category === 'Technical' ? 'text-blue-700 bg-blue-50 border-blue-200' :
-                        'text-slate-700 bg-slate-100 border-slate-200'
-                      }`}>
-                        {item.category}
-                      </Badge>
-                      {item.isMandatory ? (
-                        <Badge className="bg-slate-900 text-white hover:bg-slate-900 text-[9px] h-4.5 px-2 font-bold uppercase tracking-tighter">
-                          Mandatory
-                        </Badge>
-                      ) : (
-                        <Badge variant="outline" className="border-slate-300 text-slate-500 text-[9px] h-4.5 px-2 font-bold uppercase tracking-tighter">
-                          Optional
-                        </Badge>
-                      )}
+              {!compilationSuccess ? (
+                <div className="space-y-6 py-4">
+                  <div 
+                    onClick={() => fileInputRef.current?.click()}
+                    className={`group relative cursor-pointer flex flex-col items-center justify-center p-12 border-2 border-dashed rounded-2xl transition-all ${
+                      file 
+                      ? 'border-emerald-200 bg-emerald-50/30' 
+                      : 'border-slate-200 hover:border-blue-400 hover:bg-blue-50/30'
+                    }`}
+                  >
+                    <input 
+                      type="file" 
+                      ref={fileInputRef} 
+                      className="hidden" 
+                      onChange={handleFileChange}
+                      accept=".pdf,.docx,.txt"
+                    />
+                    
+                    <div className={`w-14 h-14 rounded-full flex items-center justify-center mb-4 transition-transform group-hover:scale-110 ${
+                      file ? 'bg-emerald-100 text-emerald-600' : 'bg-blue-100 text-blue-600'
+                    }`}>
+                      {file ? <FileText className="w-7 h-7" /> : <UploadCloud className="w-7 h-7" />}
                     </div>
-                    <div className="flex gap-1">
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        className="h-7 w-7 text-slate-400 hover:text-blue-600 hover:bg-blue-50"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setEditingCriterion({...item});
-                        }}
-                      >
-                        <Edit3 className="w-3.5 h-3.5" />
-                      </Button>
+                    
+                    <div className="text-center">
+                      <h4 className="text-base font-bold text-slate-900 mb-1">
+                        {file ? file.name : 'Select DNA Source Document'}
+                      </h4>
+                      <p className="text-xs text-slate-500">
+                        {file ? `${(file.size / (1024 * 1024)).toFixed(2)} MB • Ready to compile` : 'Supports PDF and Word documents'}
+                      </p>
                     </div>
+
+                    {file && (
+                      <div className="absolute top-4 right-4">
+                        <Badge className="bg-emerald-500 hover:bg-emerald-600 border-none">File Selected</Badge>
+                      </div>
+                    )}
                   </div>
-                  <h4 className="font-semibold text-slate-900">{item.description}</h4>
-                  <p className="text-sm text-slate-600 mt-1 mb-4 leading-relaxed">{item.requirement}</p>
-                  
-                  <div className="flex items-center justify-between pt-3 border-t border-slate-200/50">
-                    <div className="flex items-center gap-1.5">
-                      <CheckCircle2 className="w-4 h-4 text-green-500" />
-                      <span className="text-xs font-medium text-slate-500 italic">GFR Defensibility: 98%</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Label className="text-[11px] font-bold uppercase text-slate-400">Approved</Label>
-                      <Switch defaultChecked className="data-[state=checked]:bg-blue-600" />
-                    </div>
-                  </div>
+
+                  <Button 
+                    onClick={handleCompile}
+                    disabled={!file || isExtracting}
+                    className="w-full h-12 text-base font-bold bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-500/20 transition-all"
+                  >
+                    {isExtracting ? (
+                      <>
+                        <Loader2 className="w-5 h-5 mr-3 animate-spin" />
+                        Extracting GFR Criteria...
+                      </>
+                    ) : (
+                      'Compile Tender DNA'
+                    )}
+                  </Button>
                 </div>
-              ))}
+              ) : (
+                <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4">
+                  <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-xl flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-3">
+                      <div className="bg-emerald-500 p-1.5 rounded-full shadow-sm">
+                        <CheckCircle2 className="w-4 h-4 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold text-emerald-900">DNA Compilation Successful</p>
+                        <p className="text-[11px] text-emerald-700">AI has mapped multidimensional GFR parameters.</p>
+                      </div>
+                    </div>
+                    <Badge variant="outline" className="bg-white text-emerald-700 border-emerald-200 gap-1">
+                      <Zap className="w-3 h-3 fill-emerald-500 text-emerald-500" />
+                      98% Accuracy
+                    </Badge>
+                  </div>
+
+                  {criteria.map((item) => (
+                    <div 
+                      key={item.id}
+                      onClick={() => setSelectedId(item.id)}
+                      className={`p-4 rounded-xl border transition-all cursor-pointer ${
+                        selectedId === item.id 
+                        ? 'border-blue-500 bg-blue-50/50 shadow-md ring-1 ring-blue-500' 
+                        : 'border-slate-100 hover:border-slate-300'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <Badge variant="outline" className={`${
+                            item.category === 'Financial' ? 'text-green-700 bg-green-50 border-green-200' :
+                            item.category === 'Technical' ? 'text-blue-700 bg-blue-50 border-blue-200' :
+                            'text-slate-700 bg-slate-100 border-slate-200'
+                          }`}>
+                            {item.category}
+                          </Badge>
+                          {item.isMandatory ? (
+                            <Badge className="bg-slate-900 text-white hover:bg-slate-900 text-[9px] h-4.5 px-2 font-bold uppercase tracking-tighter">
+                              Mandatory
+                            </Badge>
+                          ) : (
+                            <Badge variant="outline" className="border-slate-300 text-slate-500 text-[9px] h-4.5 px-2 font-bold uppercase tracking-tighter">
+                              Optional
+                            </Badge>
+                          )}
+                        </div>
+                        <div className="flex gap-1">
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-7 w-7 text-slate-400 hover:text-blue-600 hover:bg-blue-50"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setEditingCriterion({...item});
+                            }}
+                          >
+                            <Edit3 className="w-3.5 h-3.5" />
+                          </Button>
+                        </div>
+                      </div>
+                      <h4 className="font-semibold text-slate-900">{item.description}</h4>
+                      <p className="text-sm text-slate-600 mt-1 mb-4 leading-relaxed">{item.requirement}</p>
+                      
+                      <div className="flex items-center justify-between pt-3 border-t border-slate-200/50">
+                        <div className="flex items-center gap-1.5">
+                          <CheckCircle2 className="w-4 h-4 text-green-500" />
+                          <span className="text-xs font-medium text-slate-500 italic">GFR Defensibility: 98%</span>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Label className="text-[11px] font-bold uppercase text-slate-400">Approved</Label>
+                          <Switch defaultChecked className="data-[state=checked]:bg-blue-600" />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </ScrollArea>
         </Card>
