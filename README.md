@@ -154,6 +154,24 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ---
 
+## Mock Files & Upload Instructions
+
+To test ProCure-AI locally and simulate a real-world vendor submission, use the pre-provided mock assets. These files are designed to trigger specific AI extraction and validation logic within the platform.
+
+## Where to find them?
+
+All mock files are located in the repository at:
+
+bidder-gateway/public/demo_assets/
+
+## How to use them?
+
+When running the Bidder Gateway locally, upload the following files into their respective fields to see the AI in action:
+
+<img width="985" height="408" alt="image" src="https://github.com/user-attachments/assets/3be7e23e-0b80-468d-9e5f-3d7e404c884b" />
+
+---
+
 ## Future Roadmap
 
 Blockchain Integration: Moving from a centralized cryptographic ledger to a decentralized Hyperledger Fabric for cross-departmental trust.
