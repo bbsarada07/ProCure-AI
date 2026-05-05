@@ -25,10 +25,10 @@ export function BottomNav() {
           <Link 
             key={item.href}
             href={item.href}
-            className={`flex flex-col items-center justify-center transition-colors ${isActive ? 'text-blue-600' : 'text-slate-400'}`}
+            className={`flex flex-col items-center justify-center transition-colors ${isActive ? 'text-blue-600' : 'text-slate-400 hover:text-slate-600'}`}
           >
-            <Icon className="w-4 h-4 mb-1" />
-            <span className="text-xs font-medium">{item.label}</span>
+            <Icon className={`w-4 h-4 mb-1 ${isActive ? 'stroke-[2.5px]' : ''}`} />
+            <span className={`text-xs ${isActive ? 'font-bold' : 'font-medium'}`}>{item.label}</span>
           </Link>
         );
       })}

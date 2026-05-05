@@ -15,18 +15,20 @@ import {
 } from 'lucide-react';
 import { useToast } from '../context/ToastContext';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MobileSyncQR } from './MobileSyncQR';
 
 export function TopNav() {
   const { showToast } = useToast();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   const menuItems = [
     { icon: Home, label: 'Dashboard', href: '/dashboard' },
-    { icon: FileText, label: 'My Submissions', href: '/dashboard' },
+    { icon: FileText, label: 'My Submissions', href: '/submissions' },
     { icon: Briefcase, label: 'Active Tenders', href: '/search' },
-    { icon: LifeBuoy, label: 'Help & Support', href: '/dashboard' },
+    { icon: LifeBuoy, label: 'Help & Support', href: '/support' },
   ];
 
   return (
@@ -96,19 +98,22 @@ export function TopNav() {
               </div>
 
               <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
-                {menuItems.map((item) => (
+                {menuItems.map((item) => {
+                  const isActive = pathname === item.href;
+                  return (
                   <Link 
                     key={item.label} 
                     href={item.href}
                     onClick={() => setIsMenuOpen(false)}
                     className="block"
                   >
-                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-blue-50 hover:text-blue-600 text-slate-600 font-bold transition-all group">
+                    <div className={`flex items-center gap-4 p-4 rounded-2xl hover:bg-blue-50 transition-all group ${isActive ? 'bg-blue-50 text-blue-600 font-bold' : 'text-slate-600 font-medium hover:text-blue-600'}`}>
                       <item.icon className="w-5 h-5 group-hover:scale-110 transition-transform" />
                       <span className="text-sm">{item.label}</span>
                     </div>
                   </Link>
-                ))}
+                  );
+                })}
               </nav>
 
               <MobileSyncQR />
