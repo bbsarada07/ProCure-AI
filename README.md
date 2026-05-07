@@ -8,6 +8,12 @@
 
 ---
 
+# Demo Links 
+
+Link for the bidder-gateway : https://pro-cure-ai-nu.vercel.app/dashboard
+
+Link for the Procure - AI : https://pro-cure-ai-6uzs.vercel.app/dashboard
+
 ##  The Problem
 Government organisations such as the Central Reserve Police Force (CRPF) issue tenders to procure goods and services. Evaluating whether each bidder meets the stated eligibility criteria is a manual, slow, and error-prone process. Bids arrive in heterogeneous formats (scanned PDFs, photos, regional languages, stamped physical documents). 
 
