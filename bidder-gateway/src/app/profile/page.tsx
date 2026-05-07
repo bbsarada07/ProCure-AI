@@ -1,6 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useToast } from '../../context/ToastContext';
 import { 
   User, 
   Building2, 
@@ -19,12 +21,27 @@ import { BottomNav } from '../../components/BottomNav';
 import { TopNav } from '../../components/TopNav';
 
 export default function ProfilePage() {
+  const router = useRouter();
+  const { showToast } = useToast();
+  const [debugText, setDebugText] = useState('Account Settings');
+  
+  const handleDemoClick = () => {
+    setDebugText('Demo Clicked: ' + new Date().toLocaleTimeString());
+    showToast('🔒 Security Clearance Required: Feature restricted in Demo Environment.', 'warning');
+  };
+
+  const handleLogout = () => {
+    setDebugText('Logout Clicked');
+    localStorage.clear();
+    router.push('/');
+  };
+
   const settingsItems = [
     { icon: Bell, label: 'Notification Preferences', color: 'text-blue-600', bg: 'bg-blue-50' },
     { icon: FileText, label: 'Manage Uploaded Documents', color: 'text-emerald-600', bg: 'bg-emerald-50' },
     { icon: Languages, label: 'Language Settings', color: 'text-amber-600', bg: 'bg-amber-50' },
     { icon: Fingerprint, label: 'Security & 2FA', color: 'text-indigo-600', bg: 'bg-indigo-50' },
-    { icon: LogOut, label: 'Logout', color: 'text-rose-600', bg: 'bg-rose-50' },
+    { icon: LogOut, label: 'Logout', color: 'text-rose-600', bg: 'bg-rose-50', isLogout: true },
   ];
 
   return (
@@ -85,13 +102,19 @@ export default function ProfilePage() {
         </div>
 
         {/* Settings Menu */}
-        <div className="space-y-3">
-          <h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-400 px-2">Account Settings</h3>
-          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+        <div className="space-y-3 relative z-10">
+          <h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-400 px-2">{debugText}</h3>
+          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden relative z-20">
             {settingsItems.map((item, i) => (
               <button 
                 key={item.label}
-                className={`w-full flex items-center justify-between p-4 hover:bg-slate-50 transition-colors border-b border-slate-50 last:border-b-0`}
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (item.isLogout) handleLogout();
+                  else handleDemoClick();
+                }}
+                className="w-full flex items-center justify-between p-4 transition-all duration-200 hover:bg-slate-50 active:scale-[0.99] border-b border-slate-50 last:border-b-0 group cursor-pointer relative z-[60]"
               >
                 <div className="flex items-center gap-3">
                   <div className={`p-2 rounded-xl ${item.bg} ${item.color}`}>
@@ -99,7 +122,7 @@ export default function ProfilePage() {
                   </div>
                   <span className="text-sm font-bold text-slate-700">{item.label}</span>
                 </div>
-                <ChevronRight className="w-4 h-4 text-slate-300" />
+                <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-slate-400 transition-colors" />
               </button>
             ))}
           </div>
