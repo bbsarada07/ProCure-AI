@@ -58,23 +58,23 @@ While the Government Portal handles evaluation, the Procure-Link Mobile App is t
 1. Intelligent Mobile Ingestion
 Vision-Guided Document Capture: Uses real-time edge detection to ensure bidders take clear, un-skewed photos of physical certificates and stamps.
 
-On-Device OCR Pre-check: Instantly alerts the bidder if a document is blurry or if mandatory fields (like a GSTIN or PAN) are missing before they upload.
+   On-Device OCR Pre-check: Instantly alerts the bidder if a document is blurry or if mandatory fields (like a GSTIN or PAN) are missing before they upload.
 
-Offline First Mode: Allows bidders in low-connectivity areas to scan and package their entire tender dossier locally, sync-uploading once they reach stable internet.
+   Offline First Mode: Allows bidders in low-connectivity areas to scan and package their entire tender dossier locally, sync-uploading once they reach stable         internet.
 
 2. Bidder Empowerment & Transparency
 Real-Time Status Tracking: Bidders can see exactly which stage of the "AI Auto-Structuring" their bid is in—no more "black hole" waiting periods.
 
-Instant Triage Requests: If an official marks a document as "Needs Review," the bidder receives a push notification and can re-upload the specific document instantly via the app.
+    Instant Triage Requests: If an official marks a document as "Needs Review," the bidder receives a push notification and can re-upload the specific document         instantly via the app.
 
-Cryptographic Receipt: Upon submission, the app generates a unique SHA-256 hash receipt on the bidder's phone, serving as mathematical proof of their original submission.
+    Cryptographic Receipt: Upon submission, the app generates a unique SHA-256 hash receipt on the bidder's phone, serving as mathematical proof of their original submission.
 
 3. Technical Specifications (Mobile)
-Framework: React Native / Expo (for cross-platform iOS & Android deployment).
+    Framework: React Native / Expo (for cross-platform iOS & Android deployment).
 
-Local Intelligence: Core ML / TensorFlow Lite for on-device document classification and blur detection.
+    Local Intelligence: Core ML / TensorFlow Lite for on-device document classification and blur detection.
 
-Secure Tunneling: Uses TLS 1.3 encryption to transmit sensitive financial data directly to the Procure AI Private Cloud.
+    Secure Tunneling: Uses TLS 1.3 encryption to transmit sensitive financial data directly to the Procure AI Private Cloud.
 
 ---
 
