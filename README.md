@@ -214,7 +214,7 @@ Focus Theme: CRPF Tender Evaluation & Eligibility Analysis
 
 Project Lead: B.Bhuvana Sarada
 
-Hackathon: AI for Bharat 2 (2026)
+Hackathon: AI for Bharat  (2026)
 
 ---
 
