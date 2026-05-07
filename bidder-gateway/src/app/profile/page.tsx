@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '../../context/ToastContext';
 import { 
@@ -16,7 +16,7 @@ import {
   ChevronRight,
   Fingerprint
 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { BottomNav } from '../../components/BottomNav';
 import { TopNav } from '../../components/TopNav';
 
@@ -24,10 +24,23 @@ export default function ProfilePage() {
   const router = useRouter();
   const { showToast } = useToast();
   const [debugText, setDebugText] = useState('Account Settings');
+  const [showDemoToast, setShowDemoToast] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   
   const handleDemoClick = () => {
     setDebugText('Demo Clicked: ' + new Date().toLocaleTimeString());
-    showToast('🔒 Security Clearance Required: Feature restricted in Demo Environment.', 'warning');
+    
+    // Reset timer if already showing
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+    
+    setShowDemoToast(true);
+    
+    timerRef.current = setTimeout(() => {
+      setShowDemoToast(false);
+      timerRef.current = null;
+    }, 3000);
   };
 
   const handleLogout = () => {
@@ -137,6 +150,25 @@ export default function ProfilePage() {
       </div>
 
       <BottomNav />
+
+      {/* Single Instance Demo Toast */}
+      <AnimatePresence>
+        {showDemoToast && (
+          <motion.div 
+            initial={{ opacity: 0, y: 20, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, x: '-50%' }}
+            exit={{ opacity: 0, y: 20, x: '-50%' }}
+            className="fixed bottom-20 left-1/2 -translate-x-1/2 z-[100] bg-slate-900/95 backdrop-blur-md text-white px-6 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-white/10 whitespace-nowrap"
+          >
+            <div className="w-8 h-8 bg-blue-500/20 rounded-full flex items-center justify-center">
+              <ShieldCheck className="w-4 h-4 text-blue-400" />
+            </div>
+            <p className="text-sm font-bold tracking-tight">
+              🔒 Security Clearance Required: Feature restricted in Demo Environment.
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
