@@ -192,7 +192,7 @@ Predictive Workload Balancing: AI-driven suggestions for human evaluators based 
 
 ## Contributing & Collaboration
 
-This project was developed for the AI for Bharat 2 Hackathon. 
+This project was developed for the SummerSaaS Hackathon. 
 
 We are open to collaboration with government tech entities to further refine the "Deterministic Explainability" engine.
 
@@ -214,7 +214,7 @@ Focus Theme: CRPF Tender Evaluation & Eligibility Analysis
 
 Project Lead: B.Bhuvana Sarada
 
-Hackathon: AI for Bharat  (2026)
+Hackathon: Summer SaaS Hackathon   (2026)
 
 ---
 
