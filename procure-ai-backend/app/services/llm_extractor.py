@@ -69,11 +69,20 @@ MOCK_RESPONSE = {
 
 class LLMExtractorService:
     def __init__(self):
-        # The genai.Client automatically picks up GEMINI_API_KEY from environment
-        self.client = genai.Client()
+        self._client = None
         self.model = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
         self.temperature = float(os.getenv("GEMINI_TEMPERATURE", "0.1"))
         self.use_mock_llm = os.getenv("USE_MOCK_LLM", "false").lower() == "true"
+
+    @property
+    def client(self):
+        if self._client is None:
+            api_key = os.getenv("GEMINI_API_KEY")
+            # Fallback to a mock key to prevent startup or mock-mode crashes if it is missing
+            if not api_key:
+                api_key = "MOCK_KEY_FOR_STARTUP"
+            self._client = genai.Client(api_key=api_key)
+        return self._client
 
     async def extract_criteria_from_text(self, document_text: str) -> TenderExtractionResponse:
         """
