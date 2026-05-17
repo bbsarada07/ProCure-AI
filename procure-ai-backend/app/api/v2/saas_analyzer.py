@@ -10,14 +10,16 @@ import PyPDF2
 
 # Import CrewAI
 from crewai import Agent, Task, Crew, Process, LLM
+from dotenv import load_dotenv
+
+load_dotenv()
 
 router = APIRouter()
 
-# --- Setup Gemini 1.5 Flash LLM (Safe for Free Tier) ---
-# This automatically picks up GEMINI_API_KEY from your .env file
-gemini_llm = LLM(
-    model="gemini/gemini-2.5-flash-lite",
-    api_key=os.getenv("GEMINI_API_KEY"),
+# --- Setup Groq LLM ---
+agent_llm = LLM(
+    model="groq/llama-3.3-70b-versatile",
+    api_key=os.getenv("GROQ_API_KEY"),
     temperature=0.2 
 )
 
@@ -92,7 +94,7 @@ async def analyze_contract_stream(file_bytes: bytes, file_name: str):
         role='Data Extraction Specialist',
         goal='Read the raw contract and chunk it cleanly.',
         backstory='You are an expert AI paralegal clerk.',
-        llm=gemini_llm,
+        llm=agent_llm,
         verbose=True
     )
     task1 = Task(
@@ -116,7 +118,7 @@ async def analyze_contract_stream(file_bytes: bytes, file_name: str):
         role='Senior Compliance Paralegal',
         goal='Find all money, dates, and SLA metrics.',
         backstory='You have a hawk-eye for financial commitments and deadlines.',
-        llm=gemini_llm,
+        llm=agent_llm,
         verbose=True
     )
     task2 = Task(
@@ -140,7 +142,7 @@ async def analyze_contract_stream(file_bytes: bytes, file_name: str):
         role='Lead Risk Auditor',
         goal='Identify dangerous clauses, auto-renewals, and severe liabilities.',
         backstory='You protect the company from bad contracts. You are ruthless.',
-        llm=gemini_llm,
+        llm=agent_llm,
         verbose=True
     )
     task3 = Task(
@@ -164,7 +166,7 @@ async def analyze_contract_stream(file_bytes: bytes, file_name: str):
         role='General Counsel',
         goal='Rewrite bad clauses into safe harbor language.',
         backstory='You are a master negotiator who writes fair, plain-English contract amendments.',
-        llm=gemini_llm,
+        llm=agent_llm,
         verbose=True
     )
     
