@@ -19,6 +19,7 @@ export default function TenderUpload() {
   const [file, setFile] = useState<File | null>(null);
   const [isExtracting, setIsExtracting] = useState(false);
   const [extractedData, setExtractedData] = useState<any>(null);
+  const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,23 +30,67 @@ export default function TenderUpload() {
     }
   };
 
-  const handleCompile = () => {
+  const handleCompile = async () => {
     if (!file) return;
 
     setIsExtracting(true);
     setExtractedData(null);
+    setError(null);
 
-    // Simulate AI extraction process for 3 seconds as requested
-    setTimeout(() => {
-      setIsExtracting(false);
-      setExtractedData({
-        "Minimum Turnover": "₹5 Crore",
-        "Required Projects": "3",
-        "Technical Experience": "5 Years in Gov Infrastructure",
-        "Mandatory Certifications": "ISO 9001, GST Registration",
-        "Bid Security (EMD)": "₹10,00,000 (Fixed)"
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("http://127.0.0.1:8000/api/v2/saas-analyzer/analyze", {
+        method: "POST",
+        body: formData,
       });
-    }, 3000);
+
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
+      }
+
+      const reader = response.body?.getReader();
+      if (!reader) throw new Error("No stream reader available");
+
+      const decoder = new TextDecoder("utf-8");
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n\n");
+        buffer = lines.pop() || "";
+
+        for (const line of lines) {
+          if (line.startsWith("data: ")) {
+            const dataStr = line.replace("data: ", "");
+            try {
+              const parsed = JSON.parse(dataStr);
+              if (parsed.status === "done" && parsed.final_report) {
+                const report = parsed.final_report;
+                setExtractedData({
+                  "Total Contract Value": report.paralegal?.financial_figures?.[0] || "N/A",
+                  "Monthly Retainer": report.paralegal?.financial_figures?.[1] || "N/A",
+                  "Health Score": `${report.risk_assessor?.health_score || 0}/100`,
+                  "Pages Analyzed": report.extractor?.total_pages?.toString() || "0",
+                  "Critical Risks": report.risk_assessor?.risks?.filter((r: any) => r.severity === "CRITICAL").length?.toString() || "0"
+                });
+                setIsExtracting(false);
+              }
+            } catch (err) {
+              console.error("JSON parse error", err);
+            }
+          }
+        }
+      }
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || "Failed to reach the backend.");
+      setIsExtracting(false);
+    }
   };
 
   return (
@@ -121,6 +166,12 @@ export default function TenderUpload() {
                 'Compile Tender DNA'
               )}
             </Button>
+
+            {error && (
+              <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm font-medium animate-in fade-in slide-in-from-top-2">
+                <strong>Connection Error:</strong> {error}
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
