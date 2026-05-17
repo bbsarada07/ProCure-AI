@@ -86,7 +86,7 @@ app.include_router(saas_analyzer.router, prefix="/api/v2/saas-analyzer", tags=["
 
 
 # --- HEALTH CHECK ---
-@app.get("/health")
+@app.api_route("/health", methods=["GET", "HEAD"])
 async def health_check():
     return {"status": "healthy", "service": "Backend Online"}
     
