@@ -148,7 +148,8 @@ function TerminalPhase({ file, onComplete, onFinalData }: { file: File | null; o
 
         setLogs(["> System: Initializing CrewAI Multi-Agent framework..."]);
 
-        const response = await fetch("http://127.0.0.1:8000/api/v2/saas-analyzer/analyze", {
+        const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+        const response = await fetch(`${backendUrl}/api/v2/saas-analyzer/analyze`, {
           method: "POST",
           body: formData,
         });
