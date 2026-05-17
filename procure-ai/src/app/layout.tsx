@@ -32,13 +32,13 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="h-full flex overflow-hidden bg-slate-50">
+      <body className="h-full flex overflow-hidden bg-background">
         <AppProvider>
           <ToastProvider>
             <Sidebar />
             <div className="flex-1 flex flex-col overflow-hidden">
               <TopNav />
-              <main className="flex-1 overflow-y-auto p-8">
+              <main className="flex-1 overflow-y-auto px-8 py-7">
                 {children}
               </main>
             </div>

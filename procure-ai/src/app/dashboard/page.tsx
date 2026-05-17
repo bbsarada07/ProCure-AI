@@ -3,34 +3,58 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { 
-  Users, 
-  CheckCircle2, 
-  XCircle, 
-  AlertCircle, 
+import {
+  Users,
+  CheckCircle2,
+  XCircle,
   ArrowRight,
   TrendingUp,
   FileText,
   UploadCloud,
   FileCheck,
   Loader2,
-  Plus
+  Plus,
+  ShieldCheck,
+  AlertCircle,
 } from 'lucide-react';
 import { useState, useRef } from 'react';
 import { compileTenderDNA } from '@/lib/api';
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
   DialogDescription,
   DialogFooter,
   DialogTrigger
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { useAppContext } from '@/context/AppContext';
 import { useToast } from '@/context/ToastContext';
 import Link from 'next/link';
+
+const STATS = [
+  {
+    label: 'total_bidders',
+    value: '10',
+    sub: 'Registered applicants',
+    icon: Users,
+    hue: '263',
+  },
+  {
+    label: 'cleared',
+    value: '7',
+    sub: 'Passed all criteria',
+    icon: CheckCircle2,
+    hue: '148',
+  },
+  {
+    label: 'rejected',
+    value: '3',
+    sub: 'Failed logic-gate',
+    icon: XCircle,
+    hue: '28',
+  },
+];
 
 export default function DashboardPage() {
   const { t } = useAppContext();
@@ -41,28 +65,18 @@ export default function DashboardPage() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const stats = [
-    { label: 'total_bidders', value: '10', icon: Users, color: 'text-blue-600', bg: 'bg-blue-50' },
-    { label: 'cleared', value: '7', icon: CheckCircle2, color: 'text-green-600', bg: 'bg-green-50' },
-    { label: 'rejected', value: '3', icon: XCircle, color: 'text-red-600', bg: 'bg-red-50' },
-  ];
-
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
-    if (selectedFile) {
-      setFile(selectedFile);
-    }
+    const f = e.target.files?.[0];
+    if (f) setFile(f);
   };
 
   const handleUpload = async () => {
     if (!file) return;
-    
     setIsUploading(true);
     try {
       const result = await compileTenderDNA(file);
       setExtractedData(result);
-    } catch (error) {
-      console.error('Extraction error:', error);
+    } catch {
       showToast('Failed to process tender. Check backend connection.', 'error');
     } finally {
       setIsUploading(false);
@@ -70,105 +84,141 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500">
-      <div className="flex items-end justify-between">
+    /* IMPECCABLE: Page enter animation with ease-expo */
+    <div className="page-enter space-y-10 max-w-[1400px]">
+
+      {/* ── Page header ── */}
+      <div className="flex items-end justify-between gap-8">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight text-slate-900">{t('program_dashboard')}</h2>
-          <p className="text-slate-500 mt-1">{t('overview_description')}</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">
+            Programme Overview
+          </p>
+          <h1 className="text-2xl font-bold tracking-tight">{t('program_dashboard')}</h1>
         </div>
-        <div className="flex gap-3">
+        <div className="flex items-center gap-3 shrink-0">
           <Link href="/analytics">
-            <Button variant="outline" className="gap-2">
+            <Button
+              id="btn-view-analytics"
+              variant="outline"
+              size="sm"
+              className="gap-2 text-muted-foreground"
+            >
               <TrendingUp className="w-4 h-4" />
               {t('analytics')}
             </Button>
           </Link>
+
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <DialogTrigger 
+            <DialogTrigger
               nativeButton={true}
               render={
-                <Button className="bg-blue-600 hover:bg-blue-700 gap-2 shadow-lg shadow-blue-500/20">
+                <Button
+                  id="btn-new-tender"
+                  size="sm"
+                  className="gap-2"
+                >
                   <Plus className="w-4 h-4" />
                   {t('new_tender')}
                 </Button>
               }
             />
-            <DialogContent className="sm:max-w-[550px] bg-white border-none shadow-2xl">
+
+            {/* Upload dialog — IMPECCABLE: clear steps, no decorative chrome */}
+            <DialogContent
+              id="dialog-new-tender"
+              className="sm:max-w-[520px] border-border"
+            >
               <DialogHeader>
-                <DialogTitle className="text-2xl font-bold text-slate-900">Initialize Tender DNA Compiler</DialogTitle>
-                <DialogDescription className="text-slate-500">
-                  Upload the official tender document (PDF/DOCX) to begin AI-powered DNA compilation.
+                <DialogTitle className="text-lg font-bold">
+                  Initialize Tender DNA Compiler
+                </DialogTitle>
+                <DialogDescription>
+                  Upload the official tender document to begin AI-powered extraction.
                 </DialogDescription>
               </DialogHeader>
 
               {!extractedData ? (
-                <div className="space-y-6 py-4">
-                  <div 
+                <div className="space-y-5 py-2">
+                  {/* Drop zone — no icon-tile-above-heading */}
+                  <button
+                    id="dropzone-tender-upload"
+                    type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="group relative cursor-pointer"
+                    className="dropzone w-full"
+                    aria-label="Click to upload a tender document"
                   >
-                    <input 
-                      type="file" 
-                      ref={fileInputRef} 
-                      className="hidden" 
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      className="sr-only"
                       onChange={handleFileChange}
                       accept=".pdf,.docx"
+                      aria-label="Tender file input"
                     />
-                    <div className="flex flex-col items-center justify-center p-10 bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl group-hover:border-blue-400 group-hover:bg-blue-50/30 transition-all text-center">
-                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                        <UploadCloud className="w-6 h-6 text-blue-600" />
-                      </div>
-                      <h4 className="text-sm font-bold text-slate-900 mb-1">
-                        {file ? file.name : 'Click to select DNA source'}
-                      </h4>
-                      <p className="text-xs text-slate-500">Supports PDF and Word documents up to 50MB</p>
-                    </div>
-                  </div>
-                  
-                  <DialogFooter className="sm:justify-between items-center gap-4">
-                    <p className="text-[10px] text-slate-400 font-medium uppercase tracking-widest">AI Engine: Gemini 2.0 Flash</p>
-                    <Button 
+                    <UploadCloud
+                      className="w-8 h-8 text-muted-foreground mb-4"
+                      strokeWidth={1.5}
+                    />
+                    <p className="text-sm font-semibold text-foreground">
+                      {file ? file.name : 'Click to select document'}
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      PDF or Word, up to 50 MB
+                    </p>
+                  </button>
+
+                  <DialogFooter className="flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
+                      Engine: Llama 3.3 via Groq
+                    </span>
+                    <Button
+                      id="btn-start-dna-compile"
                       onClick={handleUpload}
                       disabled={!file || isUploading}
-                      className="bg-blue-600 hover:bg-blue-700 min-w-[140px]"
+                      size="sm"
+                      className="min-w-[160px] gap-2"
                     >
                       {isUploading ? (
                         <>
-                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                          Compiling DNA...
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Compiling DNA…
                         </>
                       ) : (
                         <>
-                          <FileCheck className="w-4 h-4 mr-2" />
-                          Start DNA Compilation
+                          <FileCheck className="w-4 h-4" />
+                          Start Compilation
                         </>
                       )}
                     </Button>
                   </DialogFooter>
                 </div>
               ) : (
-                <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4">
-                  <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-xl flex items-center gap-3">
-                    <div className="bg-emerald-500 p-1.5 rounded-full">
-                      <CheckCircle2 className="w-4 h-4 text-white" />
-                    </div>
+                <div className="space-y-4 page-enter">
+                  {/* Success state — no green-on-green */}
+                  <div className="flex items-start gap-3 rounded-lg border border-border bg-muted/40 p-4">
+                    <CheckCircle2
+                      className="w-5 h-5 mt-0.5 shrink-0"
+                      style={{ color: 'var(--success)' }}
+                    />
                     <div>
-                      <p className="text-sm font-bold text-emerald-900">DNA Compilation Complete</p>
-                      <p className="text-xs text-emerald-700">Logic-gates have compiled multidimensional DNA from the document.</p>
+                      <p className="text-sm font-semibold">DNA Compilation Complete</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        Logic-gates compiled multidimensional criteria from the document.
+                      </p>
                     </div>
                   </div>
 
-                  <div className="max-h-[300px] overflow-y-auto rounded-lg border border-slate-100 bg-slate-50 p-4">
-                    <pre className="text-[10px] font-mono text-slate-700 whitespace-pre-wrap">
+                  <div className="max-h-[260px] overflow-y-auto rounded-lg border border-border bg-muted/30 p-4">
+                    <pre className="text-[11px] font-mono text-muted-foreground whitespace-pre-wrap leading-relaxed">
                       {JSON.stringify(extractedData, null, 2)}
                     </pre>
                   </div>
 
                   <DialogFooter>
                     <Link href="/tender/crpf-2026/criteria" className="w-full">
-                      <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                      <Button id="btn-view-ledger" className="w-full gap-2" size="sm">
                         View Immutable Ledger
-                        <ArrowRight className="w-4 h-4 ml-2" />
+                        <ArrowRight className="w-4 h-4" />
                       </Button>
                     </Link>
                   </DialogFooter>
@@ -179,99 +229,149 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
-          <Card key={stat.label} className="border-none shadow-sm bg-white overflow-hidden group hover:shadow-md transition-all">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-slate-500">{t(stat.label)}</p>
-                  <h3 className="text-3xl font-bold mt-1">{stat.value}</h3>
-                </div>
-                <div className={`${stat.bg} ${stat.color} p-3 rounded-2xl group-hover:scale-110 transition-transform`}>
-                  <stat.icon className="w-6 h-6" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+      {/* ── Stat cluster — IMPECCABLE: not identical icon-card grid ── */}
+      <div className="stat-cluster grid-cols-3">
+        {STATS.map((s) => (
+          <div key={s.label} className="stat-item group">
+            <div className="flex items-center justify-between mb-3">
+              <span className="stat-label">{t(s.label)}</span>
+              <s.icon
+                className="w-4 h-4"
+                style={{ color: `oklch(0.56 0.16 ${s.hue})` }}
+              />
+            </div>
+            <span
+              className="stat-value"
+              style={{ color: `oklch(0.22 0.04 ${s.hue === '263' ? '263' : s.hue})` }}
+            >
+              {s.value}
+            </span>
+            <span className="text-xs text-muted-foreground mt-1">{s.sub}</span>
+          </div>
         ))}
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <Card className="lg:col-span-2 border-none shadow-sm bg-white">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <div>
-              <CardTitle>{t('active_tenders')}</CardTitle>
-              <CardDescription>{t('active_tenders_desc')}</CardDescription>
-            </div>
-            <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-100">
-              {1} {t('active')}
+      {/* ── Main grid — IMPECCABLE: asymmetric rhythm, not 3×identical cards ── */}
+      <div className="grid gap-6 lg:grid-cols-5">
+
+        {/* Active tenders — wider column */}
+        <div className="lg:col-span-3">
+          <div className="section-header">
+            <h2 className="section-title">{t('active_tenders')}</h2>
+            <Badge
+              variant="outline"
+              className="text-xs font-semibold text-primary border-primary/30 bg-primary/8"
+            >
+              1 Active
             </Badge>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div className="group relative flex items-center justify-between p-4 rounded-xl border border-slate-100 bg-slate-50/50 hover:bg-white hover:shadow-lg transition-all duration-300">
-                <div className="flex items-center gap-4">
-                  <div className="bg-white p-3 rounded-xl border border-slate-100 shadow-sm">
-                    <FileText className="w-6 h-6 text-slate-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-slate-900 line-clamp-1">CRPF Construction Services 2026</h4>
-                    <div className="flex items-center gap-3 mt-1 text-xs text-slate-500">
-                      <span>ID: CRPF-CS-2026-004</span>
-                      <span>•</span>
-                      <span>Updated 2 hours ago</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-6">
-                  <div className="text-right hidden sm:block">
-                    <p className="text-sm font-medium text-slate-900">60% Complete</p>
-                    <div className="w-32 h-1.5 bg-slate-200 rounded-full mt-1 overflow-hidden">
-                      <div className="h-full bg-blue-500 w-[60%]" />
-                    </div>
-                  </div>
-                  <Link href="/tender/crpf-2026/evaluation">
-                    <Button size="sm" variant="ghost" className="rounded-full group-hover:bg-blue-50 group-hover:text-blue-600">
-                      {t('view')} <ArrowRight className="w-4 h-4 ml-1" />
-                    </Button>
-                  </Link>
-                </div>
+          </div>
+
+          {/* IMPECCABLE: surface-row instead of nested card-in-card */}
+          <div className="surface-row flex items-center justify-between gap-6">
+            <div className="flex items-center gap-4 min-w-0">
+              <div
+                className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
+                style={{ background: 'oklch(0.93 0.012 263)' }}
+              >
+                <FileText className="w-4 h-4" style={{ color: 'oklch(0.46 0.16 263)' }} />
+              </div>
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-foreground truncate">
+                  CRPF Construction Services 2026
+                </p>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  ID: CRPF-CS-2026-004 · Updated 2h ago
+                </p>
               </div>
             </div>
-          </CardContent>
-        </Card>
 
-        <Card className="border-none shadow-sm bg-slate-900 text-white overflow-hidden relative">
-          <div className="absolute top-0 right-0 p-8 opacity-10">
-            <ShieldCheck className="w-32 h-32" />
-          </div>
-          <CardHeader>
-            <CardTitle className="text-xl">{t('statutory_agent')}</CardTitle>
-            <CardDescription className="text-slate-400">{t('powered_by_gfr')}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <p className="text-sm text-slate-300 leading-relaxed">
-              {t('agent_summary')}
-            </p>
-            <div className="space-y-3">
+            <div className="flex items-center gap-6 shrink-0">
+              {/* Progress bar with label */}
+              <div className="hidden sm:flex flex-col items-end gap-1.5">
+                <span className="text-xs font-semibold tabular-nums">60%</span>
+                <div className="w-28 h-1.5 rounded-full bg-border overflow-hidden">
+                  <div
+                    className="h-full rounded-full"
+                    style={{
+                      width: '60%',
+                      background: 'oklch(0.46 0.16 263)',
+                      transition: 'width 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+                    }}
+                  />
+                </div>
+              </div>
+
               <Link href="/tender/crpf-2026/evaluation">
-                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white border-none gap-2">
-                  <FileText className="w-4 h-4" />
-                  View Evaluation Matrix
-                </Button>
-              </Link>
-              <Link href="/tender/crpf-2026/evaluation">
-                <Button variant="ghost" className="w-full text-slate-400 hover:text-white hover:bg-white/5">
-                  {t('gen_audit_report')}
+                <Button
+                  id="btn-view-evaluation"
+                  variant="ghost"
+                  size="sm"
+                  className="gap-1.5 text-muted-foreground hover:text-primary"
+                >
+                  {t('view')}
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </Button>
               </Link>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+
+          {/* Empty state hint */}
+          <p className="text-xs text-muted-foreground mt-4 flex items-center gap-1.5">
+            <AlertCircle className="w-3.5 h-3.5" />
+            More tenders appear here after DNA compilation.
+          </p>
+        </div>
+
+        {/* Statutory agent panel — darker surface, no nested cards */}
+        <div
+          className="lg:col-span-2 rounded-xl p-6 flex flex-col gap-5 relative overflow-hidden"
+          style={{ background: 'oklch(0.135 0.025 263)' }}
+        >
+          {/* Decorative emblem — subtle, not a card */}
+          <ShieldCheck
+            className="absolute -bottom-4 -right-4 w-28 h-28 opacity-[0.06]"
+            style={{ color: 'oklch(0.68 0.14 263)' }}
+          />
+
+          <div>
+            <h2 className="text-sm font-bold text-[oklch(0.88_0.010_255)]">
+              {t('statutory_agent')}
+            </h2>
+            <p className="text-xs text-[oklch(0.52_0.02_263)] mt-0.5">
+              {t('powered_by_gfr')}
+            </p>
+          </div>
+
+          <p className="text-sm text-[oklch(0.72_0.018_263)] leading-relaxed" style={{ maxWidth: '52ch' }}>
+            {t('agent_summary')}
+          </p>
+
+          <div className="space-y-2 mt-auto">
+            <Link href="/tender/crpf-2026/evaluation">
+              <button
+                id="btn-view-matrix"
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-md
+                           bg-[oklch(0.46_0.16_263)] text-[oklch(0.97_0.005_255)] text-sm font-semibold
+                           hover:opacity-90 transition-opacity duration-150"
+              >
+                <FileText className="w-4 h-4" />
+                View Evaluation Matrix
+              </button>
+            </Link>
+            <Link href="/tender/crpf-2026/evaluation">
+              <button
+                id="btn-gen-audit"
+                className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-md
+                           text-[oklch(0.52_0.02_263)] text-sm font-medium
+                           hover:bg-[oklch(0.20_0.03_263)] hover:text-[oklch(0.78_0.02_263)]
+                           transition-all duration-150"
+              >
+                {t('gen_audit_report')}
+              </button>
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
-
-import { ShieldCheck } from 'lucide-react';

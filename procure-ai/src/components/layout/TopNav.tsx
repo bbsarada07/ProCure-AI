@@ -1,9 +1,8 @@
 'use client';
 
-import { Search, Bell, HelpCircle } from 'lucide-react';
+import { Search, Bell, HelpCircle, Languages, ChevronDown, UserCircle, Check } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { useAppContext, Language } from '@/context/AppContext';
 import { useToast } from '@/context/ToastContext';
@@ -16,157 +15,204 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, UserCircle, ShieldAlert, Languages, Check } from 'lucide-react';
 
 const languageMap: Record<Language, string> = {
-  EN: 'English',
-  HI: 'Hindi',
-  BN: 'Bengali',
-  TE: 'Telugu',
-  MR: 'Marathi',
-  TA: 'Tamil',
-  GU: 'Gujarati',
-  KN: 'Kannada',
-  ML: 'Malayalam',
-  PA: 'Punjabi'
+  EN: 'English', HI: 'Hindi', BN: 'Bengali', TE: 'Telugu', MR: 'Marathi',
+  TA: 'Tamil', GU: 'Gujarati', KN: 'Kannada', ML: 'Malayalam', PA: 'Punjabi'
 };
 
 export function TopNav() {
   const { role, setRole, language, setLanguage, t } = useAppContext();
   const { showToast } = useToast();
 
-  const handleLanguageSelect = (lang: Language) => {
-    setLanguage(lang);
-  };
-
   return (
-    <header className="h-16 border-b border-[#1E293B] bg-[#0F172A]/90 backdrop-blur-md sticky top-0 z-30 flex items-center justify-between px-8">
-      <div className="flex-1 max-w-md">
-        <div className="relative group">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-blue-400 transition-colors" />
-          <Input 
-            placeholder="Search tenders, bidders, or criteria..." 
-            className="pl-10 bg-[#1E293B] border-transparent text-white placeholder:text-slate-500 focus-visible:ring-blue-500 focus-visible:border-blue-500 rounded-full h-9 transition-all"
-          />
-        </div>
+    /* IMPECCABLE: top bar stays in light mode — dark sidebar / light main area contrast */
+    <header className="h-14 border-b border-border bg-background/90 backdrop-blur-sm sticky top-0 z-30 flex items-center justify-between px-6 gap-4">
+
+      {/* Search — functional, not decorative */}
+      <div className="relative flex-1 max-w-sm">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+        <Input
+          id="topnav-search"
+          placeholder="Search tenders, bidders, criteria…"
+          className="pl-9 h-8 text-sm bg-muted/50 border-transparent rounded-md focus-visible:ring-1 focus-visible:ring-ring focus-visible:border-border"
+        />
       </div>
 
-      <div className="flex items-center gap-4">
-        <div className={cn(
-          "flex items-center gap-1.5 px-3 py-1 rounded-full border animate-pulse transition-colors",
-          role === 'Evaluator' ? "bg-amber-50 text-amber-700 border-amber-100" : "bg-emerald-50 text-emerald-700 border-emerald-100"
-        )}>
-          <div className={cn("w-2 h-2 rounded-full", role === 'Evaluator' ? "bg-amber-500" : "bg-emerald-500")} />
-          <span className="text-[11px] font-bold uppercase tracking-wider">
-            {role === 'Evaluator' ? '1 Action Required' : '4 Pending Sign-offs'}
+      {/* Right controls */}
+      <div className="flex items-center gap-2">
+
+        {/* Status pill — no pulsing animation on whole pill */}
+        <div
+          className={cn(
+            "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold border",
+            role === 'Evaluator'
+              ? "bg-[oklch(0.97_0.03_72)] text-[oklch(0.52_0.14_72)] border-[oklch(0.88_0.06_72)]"
+              : "bg-[oklch(0.96_0.03_148)] text-[oklch(0.40_0.14_148)] border-[oklch(0.84_0.06_148)]"
+          )}
+        >
+          <span
+            className="relative flex h-1.5 w-1.5 shrink-0"
+            aria-hidden="true"
+          >
+            <span
+              className={cn(
+                "animate-ping absolute inline-flex h-full w-full rounded-full opacity-60",
+                role === 'Evaluator' ? "bg-[oklch(0.72_0.16_72)]" : "bg-[oklch(0.56_0.16_148)]"
+              )}
+            />
+            <span
+              className={cn(
+                "relative inline-flex rounded-full h-1.5 w-1.5",
+                role === 'Evaluator' ? "bg-[oklch(0.72_0.16_72)]" : "bg-[oklch(0.56_0.16_148)]"
+              )}
+            />
           </span>
+          {role === 'Evaluator' ? '1 action required' : '4 pending sign-offs'}
         </div>
-        
-        {/* Localization Toggle */}
+
+        {/* Language selector */}
         <DropdownMenu>
-          <DropdownMenuTrigger className="outline-none">
-            <div 
+          <DropdownMenuTrigger
+            id="topnav-lang-trigger"
+            className="outline-none"
+          >
+            <div
               role="button"
-              className="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-slate-700 bg-[#1E293B] text-xs font-bold whitespace-nowrap transition-all outline-none select-none active:scale-[0.98] cursor-pointer text-slate-300 gap-2 px-3 h-9 hover:bg-slate-800 hover:text-white uppercase tracking-widest min-w-[70px]"
+              className="inline-flex items-center gap-1.5 h-8 px-3 rounded-md border border-border bg-muted/40
+                         text-xs font-semibold text-muted-foreground uppercase tracking-wider
+                         hover:bg-accent hover:text-accent-foreground transition-colors duration-150
+                         focus-visible:ring-2 focus-visible:ring-ring"
             >
-              <Languages className="w-3.5 h-3.5 text-blue-400" />
+              <Languages className="w-3.5 h-3.5" />
               {language}
-              <ChevronDown className="w-3 h-3 text-slate-500" />
+              <ChevronDown className="w-3 h-3 opacity-50" />
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-48 bg-[#1E293B] border-slate-700 text-slate-200">
-            <DropdownMenuGroup>
-              <DropdownMenuLabel className="text-slate-500 text-[9px] uppercase tracking-widest px-3 py-2">Select Language</DropdownMenuLabel>
-              <DropdownMenuSeparator className="bg-slate-700" />
-            </DropdownMenuGroup>
-            <div className="max-h-[300px] overflow-y-auto custom-scrollbar">
+          <DropdownMenuContent
+            align="end"
+            className="w-44 text-sm"
+          >
+            <DropdownMenuLabel className="text-[10px] uppercase tracking-widest text-muted-foreground px-3 py-1.5">
+              Language
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <div className="max-h-64 overflow-y-auto">
               {(Object.keys(languageMap) as Language[]).map((lang) => (
-                <DropdownMenuItem 
+                <DropdownMenuItem
+                  id={`lang-option-${lang.toLowerCase()}`}
                   key={lang}
-                  onClick={() => handleLanguageSelect(lang)} 
-                  className="gap-2 focus:bg-slate-800 cursor-pointer px-3 py-2"
+                  onClick={() => setLanguage(lang)}
+                  className="gap-2 cursor-pointer text-xs"
                 >
-                  <span className={cn("flex-1 text-xs", language === lang ? "font-bold text-white" : "text-slate-400")}>
-                    {lang} - {languageMap[lang]}
+                  <Check
+                    className={cn("w-3 h-3 shrink-0", language === lang ? "opacity-100" : "opacity-0")}
+                  />
+                  <span className={language === lang ? "font-semibold" : ""}>
+                    {lang} — {languageMap[lang]}
                   </span>
-                  {language === lang && <Check className="w-3 h-3 text-blue-400" />}
                 </DropdownMenuItem>
               ))}
             </div>
           </DropdownMenuContent>
         </DropdownMenu>
 
+        {/* Role switcher */}
         <DropdownMenu>
-          <DropdownMenuTrigger className="outline-none">
-            <div 
+          <DropdownMenuTrigger
+            id="topnav-role-trigger"
+            className="outline-none"
+          >
+            <div
               role="button"
-              className={cn(
-                "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-slate-700 bg-[#1E293B] text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:scale-[0.98] cursor-pointer text-slate-300 gap-2 px-3 h-9 hover:bg-slate-800 hover:text-white"
-              )}
+              className="inline-flex items-center gap-2 h-8 px-3 rounded-md border border-border bg-muted/40
+                         text-xs font-medium text-muted-foreground
+                         hover:bg-accent hover:text-accent-foreground transition-colors duration-150
+                         focus-visible:ring-2 focus-visible:ring-ring"
             >
-              <UserCircle className="w-4 h-4" />
-              <div className="text-left">
-                <div className="text-[9px] uppercase font-bold text-slate-500 leading-none mb-0.5">{t('current_role')}</div>
-                <div className="text-[11px] font-bold leading-none">{role === 'Evaluator' ? t('junior_evaluator') : t('procurement_director')}</div>
-              </div>
-              <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
+              <UserCircle className="w-3.5 h-3.5" />
+              <span>{role === 'Evaluator' ? t('junior_evaluator') : t('procurement_director')}</span>
+              <ChevronDown className="w-3 h-3 opacity-50" />
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56 bg-[#1E293B] border-slate-700 text-slate-200">
+          <DropdownMenuContent align="end" className="w-52">
+            <DropdownMenuLabel className="text-[10px] uppercase tracking-widest text-muted-foreground px-3 py-1.5">
+              {t('select_access')}
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuLabel className="text-slate-500 text-[10px] uppercase tracking-widest px-3 py-2">{t('select_access')}</DropdownMenuLabel>
-              <DropdownMenuSeparator className="bg-slate-700" />
-              <DropdownMenuItem 
-                onClick={() => setRole('Evaluator')}
-                className="gap-3 focus:bg-slate-800 focus:text-white cursor-pointer group py-3 px-4"
-              >
-                <div className={cn("w-3 h-3 rounded-full shrink-0", role === 'Evaluator' ? "bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)]" : "bg-transparent border-2 border-slate-600")} />
-                <div className="flex flex-col">
-                  <span className={cn("text-sm transition-colors", role === 'Evaluator' ? "font-black text-white" : "font-bold text-slate-200 group-hover:text-white")}>{t('junior_evaluator')}</span>
-                  <span className="text-[10px] text-slate-400 font-medium">Role: Maker (Extraction & Analysis)</span>
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuItem 
-                onClick={() => setRole('Director')}
-                className="gap-3 focus:bg-slate-800 focus:text-white cursor-pointer group py-3 px-4"
-              >
-                <div className={cn("w-3 h-3 rounded-full shrink-0", role === 'Director' ? "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" : "bg-transparent border-2 border-slate-600")} />
-                <div className="flex flex-col">
-                  <span className={cn("text-sm transition-colors", role === 'Director' ? "font-black text-white" : "font-bold text-slate-200 group-hover:text-white")}>{t('procurement_director')}</span>
-                  <span className="text-[10px] text-slate-400 font-medium">Role: Checker (Final Approval)</span>
-                </div>
-              </DropdownMenuItem>
+              {[
+                { key: 'Evaluator', label: t('junior_evaluator'), sub: 'Maker — extraction & analysis' },
+                { key: 'Director', label: t('procurement_director'), sub: 'Checker — final approval' },
+              ].map(({ key, label, sub }) => (
+                <DropdownMenuItem
+                  id={`role-option-${key.toLowerCase()}`}
+                  key={key}
+                  onClick={() => setRole(key as any)}
+                  className="gap-3 cursor-pointer py-2.5"
+                >
+                  <div
+                    className={cn(
+                      "w-2 h-2 rounded-full shrink-0",
+                      role === key
+                        ? key === 'Evaluator'
+                          ? "bg-[oklch(0.72_0.16_72)]"
+                          : "bg-[oklch(0.56_0.16_148)]"
+                        : "bg-muted-foreground/30"
+                    )}
+                  />
+                  <div className="flex flex-col">
+                    <span className={cn("text-xs", role === key ? "font-bold" : "font-medium")}>
+                      {label}
+                    </span>
+                    <span className="text-[10px] text-muted-foreground">{sub}</span>
+                  </div>
+                </DropdownMenuItem>
+              ))}
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <div className="flex items-center gap-2 px-3 py-1 bg-[#1E293B] border border-slate-700 rounded-lg text-slate-300">
-          <div className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </div>
-          <span className="text-[10px] font-black uppercase tracking-widest text-emerald-500">Live Sync Active</span>
+        {/* Live sync indicator */}
+        <div
+          className="hidden lg:flex items-center gap-1.5 text-[oklch(0.56_0.16_148)]"
+          aria-label="System status: Live sync active"
+        >
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[oklch(0.56_0.16_148)] opacity-60" />
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[oklch(0.56_0.16_148)]" />
+          </span>
+          <span className="text-[10px] font-semibold uppercase tracking-widest">Live</span>
         </div>
 
-        <div className="h-8 w-px bg-slate-700 mx-2" />
+        <div className="h-5 w-px bg-border" />
 
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          className="relative text-slate-400 hover:text-white hover:bg-[#1E293B]"
+        {/* Notification */}
+        <Button
+          id="topnav-notifications"
+          variant="ghost"
+          size="icon"
+          className="relative h-8 w-8 text-muted-foreground hover:text-foreground"
           onClick={() => showToast("Notification Center: 2 new technical audits pending.", "info")}
+          aria-label="View notifications"
         >
-          <Bell className="w-5 h-5" />
-          <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-[#0F172A]" />
+          <Bell className="w-4 h-4" />
+          <span
+            className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-destructive rounded-full"
+            aria-hidden="true"
+          />
         </Button>
 
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          className="text-slate-400 hover:text-white hover:bg-[#1E293B]"
-          onClick={() => showToast("ProcureAI Support: Documentation and help center initializing...", "info")}
+        {/* Help */}
+        <Button
+          id="topnav-help"
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8 text-muted-foreground hover:text-foreground"
+          onClick={() => showToast("ProcureAI Support: Documentation initializing…", "info")}
+          aria-label="Open help center"
         >
-          <HelpCircle className="w-5 h-5" />
+          <HelpCircle className="w-4 h-4" />
         </Button>
       </div>
     </header>
