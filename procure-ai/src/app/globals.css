@@ -142,9 +142,11 @@
 
 /* IMPECCABLE: Purposeful motion — ease-out-quart, no bounce/elastic */
 @layer utilities {
-  /* Easing curves */
-  .ease-quart  { transition-timing-function: cubic-bezier(0.25, 1, 0.5, 1); }
-  .ease-expo   { transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+  /* Easing curves — defined as CSS variables, referenced inline */
+  :root {
+    --ease-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    --ease-expo:  cubic-bezier(0.16, 1, 0.3, 1);
+  }
 
   /* Status pill variants — no colored text on colored backgrounds */
   .status-success {
@@ -166,32 +168,32 @@
   /* IMPECCABLE: Focused surface — used for interactive data rows, not "cards" */
   .surface-row {
     @apply rounded-lg border border-border bg-card px-5 py-4
-           transition-all duration-200 ease-quart
            hover:border-primary/30 hover:shadow-sm;
+    transition: all 200ms var(--ease-quart);
   }
 
   /* Primary action button system */
   .btn-primary {
     @apply inline-flex items-center gap-2 px-4 py-2 rounded-md
            bg-primary text-primary-foreground text-sm font-semibold
-           transition-all duration-150 ease-quart
            hover:opacity-90 active:scale-[0.98]
            focus-visible:outline-2 focus-visible:outline-ring;
+    transition: all 150ms var(--ease-quart);
   }
   .btn-ghost {
     @apply inline-flex items-center gap-2 px-4 py-2 rounded-md
            text-muted-foreground text-sm font-medium
-           transition-all duration-150 ease-quart
            hover:bg-accent hover:text-accent-foreground
            focus-visible:outline-2 focus-visible:outline-ring;
+    transition: all 150ms var(--ease-quart);
   }
 
   /* Upload drop zone — purposeful state changes */
   .dropzone {
     @apply relative flex flex-col items-center justify-center
            rounded-xl border-2 border-dashed border-border
-           bg-muted/30 p-12 text-center cursor-pointer
-           transition-all duration-200 ease-quart;
+           bg-muted/30 p-12 text-center cursor-pointer;
+    transition: all 200ms var(--ease-quart);
   }
   .dropzone:hover,
   .dropzone[data-active="true"] {
@@ -233,8 +235,9 @@
   /* IMPECCABLE: Sidebar nav item — no left-border accent stripe */
   .nav-item {
     @apply flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium
-           text-[oklch(0.72_0.02_263)] transition-all duration-150 ease-quart
+           text-[oklch(0.72_0.02_263)]
            hover:bg-[oklch(0.20_0.03_263)] hover:text-[oklch(0.88_0.01_255)];
+    transition: all 150ms var(--ease-quart);
   }
   .nav-item[data-active="true"] {
     @apply bg-primary text-primary-foreground font-semibold;
@@ -242,7 +245,7 @@
 
   /* IMPECCABLE: Page fade-in with ease-expo */
   .page-enter {
-    animation: pageEnter 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation: pageEnter 0.35s var(--ease-expo) both;
   }
 
   /* IMPECCABLE: Subtle shimmer for loading states */
