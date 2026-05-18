@@ -10,9 +10,9 @@
 
 # Demo Links 
 
-Link for the bidder-gateway : https://pro-cure-ai-nu.vercel.app/dashboard
+Link for the bidder-gateway : https://pro-cure-ai.vercel.app/submit/BSF-T012
 
-Link for the Procure - AI : https://pro-cure-ai-6uzs.vercel.app/dashboard
+Link for the Procure - AI : https://pro-cure-ai-6uzs.vercel.app/contract-crew/session-1
 
 ---
 
