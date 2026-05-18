@@ -3,11 +3,14 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 export type Role = 'Evaluator' | 'Director';
+export type PortalType = 'gov' | 'corp';
 export type Language = 'EN' | 'HI' | 'BN' | 'TE' | 'MR' | 'TA' | 'GU' | 'KN' | 'ML' | 'PA';
 
 interface AppContextType {
   role: Role;
   setRole: (role: Role) => void;
+  portalType: PortalType;
+  setPortalType: (portal: PortalType) => void;
   language: Language;
   setLanguage: (lang: Language) => void;
   t: (key: string) => string;
@@ -395,6 +398,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const [role, setRole] = useState<Role>('Evaluator');
+  const [portalType, setPortalType] = useState<PortalType>('gov');
   const [language, setLanguage] = useState<Language>('EN');
 
   const t = (key: string) => {
@@ -404,7 +408,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AppContext.Provider value={{ role, setRole, language, setLanguage, t }}>
+    <AppContext.Provider value={{ role, setRole, portalType, setPortalType, language, setLanguage, t }}>
       {children}
     </AppContext.Provider>
   );

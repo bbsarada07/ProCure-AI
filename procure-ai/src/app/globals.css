@@ -8,7 +8,7 @@
    Register: PRODUCT (app UI, design serves the product).
    Color strategy: COMMITTED — one saturated indigo-slate carries structure. */
 
-@custom-variant dark (&:is(.dark *));
+@variant dark (&:where(.dark, .dark *));
 
 @theme inline {
   --color-background: var(--background);

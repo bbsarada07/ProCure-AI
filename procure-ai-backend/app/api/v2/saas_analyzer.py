@@ -20,7 +20,8 @@ router = APIRouter()
 agent_llm = LLM(
     model="groq/llama-3.3-70b-versatile",
     api_key=os.getenv("GROQ_API_KEY"),
-    temperature=0.2 
+    temperature=0.2,
+    num_retries=5
 )
 
 # --- Pydantic Models for the 4 Agents (Do Not Change) ---
@@ -82,13 +83,13 @@ async def analyze_contract_stream(file_bytes: bytes, file_name: str):
         yield f"data: {json.dumps({'agent': 'System', 'status': 'error', 'message': 'Failed to read PDF.'})}\n\n"
         return
         
-    # Prevent massive payloads from breaking token limits (Truncate for hackathon safety)
-    safe_text = raw_text[:25000] 
+    # Prevent massive payloads from breaking token limits (Optimized for Groq Free Tier TPM Limits)
+    safe_text = raw_text[:12000] 
 
     # ==========================================
     # AGENT 1: EXTRACTOR
     # ==========================================
-    yield f"data: {json.dumps({'agent': 'Extractor', 'status': 'processing', 'message': 'Normalizing and chunking raw PDF text via Gemini 1.5...'})}\n\n"
+    yield f"data: {json.dumps({'agent': 'Extractor', 'status': 'processing', 'message': 'Normalizing and chunking raw PDF text via Llama 3.3...'})}\n\n"
     
     extractor_agent = Agent(
         role='Data Extraction Specialist',
@@ -112,6 +113,8 @@ async def analyze_contract_stream(file_bytes: bytes, file_name: str):
     # ==========================================
     # AGENT 2: PARALEGAL
     # ==========================================
+    yield f"data: {json.dumps({'agent': 'Paralegal', 'status': 'processing', 'message': 'Preparing Paralegal agent analysis (cooldown)...'})}\n\n"
+    await asyncio.sleep(12)
     yield f"data: {json.dumps({'agent': 'Paralegal', 'status': 'processing', 'message': 'Hunting for deadlines, financial figures, and SLA obligations...'})}\n\n"
     
     paralegal_agent = Agent(
@@ -136,6 +139,8 @@ async def analyze_contract_stream(file_bytes: bytes, file_name: str):
     # ==========================================
     # AGENT 3: RISK ASSESSOR
     # ==========================================
+    yield f"data: {json.dumps({'agent': 'Risk Assessor', 'status': 'processing', 'message': 'Preparing Risk Assessor agent analysis (cooldown)...'})}\n\n"
+    await asyncio.sleep(12)
     yield f"data: {json.dumps({'agent': 'Risk Assessor', 'status': 'processing', 'message': 'Auditing legal exposures and calculating health score...'})}\n\n"
     
     risk_agent = Agent(
@@ -160,6 +165,8 @@ async def analyze_contract_stream(file_bytes: bytes, file_name: str):
     # ==========================================
     # AGENT 4: NEGOTIATOR
     # ==========================================
+    yield f"data: {json.dumps({'agent': 'Negotiator', 'status': 'processing', 'message': 'Preparing Negotiator agent analysis (cooldown)...'})}\n\n"
+    await asyncio.sleep(12)
     yield f"data: {json.dumps({'agent': 'Negotiator', 'status': 'processing', 'message': 'Drafting plain-English explanations and safe-harbor redlines...'})}\n\n"
     
     negotiator_agent = Agent(
