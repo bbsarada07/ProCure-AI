@@ -208,7 +208,7 @@ All previously detected secrets have been fully revoked and rotated.
 
 ---
 
-## Developed by Team ProCure-AI
+## Developed by Team Zenthra
 
 Focus Theme: CRPF Tender Evaluation & Eligibility Analysis
 
